@@ -191,6 +191,16 @@ on boot
     chown system system /sys/class/vibetonz/immDuty/pwmvalue_intensity
     chmod 0664 /sys/class/vibetonz/immDuty/pwmvalue_intensity
 
+    # Adaptive backlight
+    chown root system /sys/devices/platform/mddi_auo_s6d05a1_hvga/dbc_ctrl
+    chmod 0664 /sys/devices/platform/mddi_auo_s6d05a1_hvga/dbc_ctrl
+    chown root system /sys/devices/platform/mddi_hitachi_r61529_hvga/dbc_ctrl
+    chmod 0664 /sys/devices/platform/mddi_hitachi_r61529_hvga/dbc_ctrl
+    chown root system /sys/devices/platform/mddi_sii_r61529_hvga/dbc_ctrl
+    chmod 0664 /sys/devices/platform/mddi_sii_r61529_hvga/dbc_ctrl
+    chown root system /sys/devices/platform/mddi_sony_s6d05a1_hvga/dbc_ctrl
+    chmod 0664 /sys/devices/platform/mddi_sony_s6d05a1_hvga/dbc_ctrl
+
     # Display color calibration
     chown system system /sys/class/graphics/fb0/kcal
 
