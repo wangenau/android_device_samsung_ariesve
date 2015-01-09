@@ -156,8 +156,7 @@ PRODUCT_PACKAGES += \
     AriesParts
 
 # Other apps
-PRODUCT_PACKAGES += \
-    qcmediaplayer
+PRODUCT_PACKAGES += qcmediaplayer
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
