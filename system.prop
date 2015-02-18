@@ -72,3 +72,6 @@ ro.config.nocheckin=1
 
 # Disable atlas services on low-ram targets
 config.disable_atlas=true
+
+# USB-OTG
+persist.sys.isUsbOtgEnabled=true
