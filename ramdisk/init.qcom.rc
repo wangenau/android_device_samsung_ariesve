@@ -264,6 +264,11 @@ on boot
     setprop net.tcp.usercfg.wifi       1
     setprop net.tcp.usercfg.lte        1
 
+    # Adaptive LMK
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
+
+
 on fs
     chmod 0666 /dev/block/mmcblk0p14
 
