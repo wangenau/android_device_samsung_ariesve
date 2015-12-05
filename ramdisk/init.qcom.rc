@@ -375,6 +375,12 @@ on property:init.svc.bootanim=running
     write /sys/class/graphics/fb0/blank 1
     write /sys/class/graphics/fb0/blank 0
 
+on property:init.svc.bootanim=stopped
+    # Switch to FIOPS after boot for better UX
+    write /sys/block/mtdblock0/queue/scheduler fiops
+    write /sys/block/mtdblock1/queue/scheduler fiops
+    write /sys/block/mtdblock2/queue/scheduler fiops
+
 on property:init.svc.ril-daemon=running
     start get_macaddrs
     chmod 666 /data/.bt.info
