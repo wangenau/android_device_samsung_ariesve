@@ -174,6 +174,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.locale.language=en \
     ro.product.locale.region=GB
 
+# IO Scheduler
+PRODUCT_PROPERTY_OVERRIDES += \
+    sys.io.scheduler=bfq
+
 # Build properties
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.secure=0 \
