@@ -165,10 +165,6 @@ PRODUCT_PACKAGES += \
     qcmediaplayer \
     LiveWallpapersPicker
 
-# Low Power Audio
-PRODUCT_PROPERTY_OVERRIDES += \
-    lpa.decode=true
-
 # IPv6 tethering
 PRODUCT_PACKAGES += \
     ebtables \
