@@ -161,7 +161,6 @@ PRODUCT_PACKAGES += \
 
 # Other apps
 PRODUCT_PACKAGES += \
-    PhotoTable \
     qcmediaplayer \
     LiveWallpapersPicker
 
