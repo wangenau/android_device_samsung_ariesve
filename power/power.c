@@ -121,7 +121,7 @@ static void configure_governor()
         sysfs_write("/sys/devices/system/cpu/cpufreq/ondemand/down_differential", "10");
         sysfs_write("/sys/devices/system/cpu/cpufreq/ondemand/input_boost", "1024000");
         sysfs_write("/sys/devices/system/cpu/cpufreq/ondemand/boostfreq", "1024000");
-        sysfs_write("/sys/devices/system/cpu/cpufreq/ondemand/sampling_rate", "50000");
+        sysfs_write("/sys/devices/system/cpu/cpufreq/ondemand/sampling_rate", "70000");
 
     } else if (strncmp(governor, "interactive", 11) == 0) {
         sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time", "90000");
