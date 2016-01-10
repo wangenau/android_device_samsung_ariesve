@@ -69,10 +69,9 @@ mm.enable.smoothstreaming=true
 # Enable High-End graphic effects
 persist.sys.force_highendgfx=true
 
-# Disable profiler and live logcat
+# Disable profiler
 profiler.force_disable_err_rpt=1
 profiler.force_disable_ulog=1
-logcat.live=disable
 
-# Buffer size in kbytes for compress offload playback
-audio.offload.buffer.size.kb=32
+# Disable live logcat
+logcat.live=disable
