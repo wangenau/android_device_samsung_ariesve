@@ -36,9 +36,6 @@ debug.composition.type=dyn
 # Enable non-omx mp3 decode
 use.non-omx.mp3.decoder=true
 
-# Low Power Audio
-lpa.decode=false
-
 # Set default USB interface
 persist.sys.usb.config=mtp
 
