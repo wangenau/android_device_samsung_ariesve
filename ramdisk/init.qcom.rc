@@ -279,6 +279,8 @@ on boot
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
 
+    # Set LCD brightness on boot
+    write /sys/class/leds/lcd-backlight/brightness 30
 
 on fs
     chmod 0666 /dev/block/mmcblk0p14
