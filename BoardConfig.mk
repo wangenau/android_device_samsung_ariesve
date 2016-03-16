@@ -61,7 +61,7 @@ TARGET_KERNEL_CONFIG := ariesve_oc_exuv_defconfig
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI          := true
-WIFI_BAND                        := 802_11_ABG
+WIFI_BAND                        := 802_11_ABGN
 WPA_SUPPLICANT_VERSION           := VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
