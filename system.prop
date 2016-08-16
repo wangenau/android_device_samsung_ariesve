@@ -33,6 +33,9 @@ debug.egl.hw=1
 debug.mdpcomp.logs=0
 debug.composition.type=dyn
 
+# Disable offload audio
+audio.offload.disable=1
+
 # Enable non-omx mp3 decode
 use.non-omx.mp3.decoder=true
 
