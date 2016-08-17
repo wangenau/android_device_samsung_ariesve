@@ -161,8 +161,7 @@ PRODUCT_PACKAGES += \
 
 # Other apps
 PRODUCT_PACKAGES += \
-    qcmediaplayer \
-    LiveWallpapersPicker
+    qcmediaplayer
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -189,10 +188,6 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.low_ram=true
 
-#disable preloading of EGL/GL drivers in Zygote at boot time
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.zygote.disable_gl_preload=true
-
 # We have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
@@ -202,6 +197,7 @@ $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329
 # Dalvik heap
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
+# Wifi Calibration 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/nvram_net.txt:system/vendor/firmware/nvram_net.txt
 

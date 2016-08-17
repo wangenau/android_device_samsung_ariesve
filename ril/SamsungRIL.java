@@ -362,12 +362,6 @@ public class SamsungRIL extends RIL implements CommandsInterface {
         response = p.readInt();
 
         switch(response) {
-        /*
-				cat libs/telephony/ril_unsol_commands.h \
-				| egrep "^ *{RIL_" \
-				| sed -re 's/\{([^,]+),[^,]+,([^}]+).+/case \1: \2(rr, p); break;/'
-         */
-
         case RIL_UNSOL_NITZ_TIME_RECEIVED: ret =  responseString(p); break;
         case RIL_UNSOL_SIGNAL_STRENGTH: ret = responseSignalStrength(p); break;
         case RIL_UNSOL_CDMA_INFO_REC: ret = responseCdmaInformationRecord(p); break;
@@ -375,7 +369,6 @@ public class SamsungRIL extends RIL implements CommandsInterface {
         case RIL_UNSOL_STK_PROACTIVE_COMMAND: ret = responseString(p); break;
 
         //fixing anoying Exceptions caused by the new Samsung states
-        //FIXME figure out what the states mean an what data is in the parcel
 
         case RIL_UNSOL_O2_HOME_ZONE_INFO: ret = responseVoid(p); break;
         case RIL_UNSOL_DEVICE_READY_NOTI: ret = responseVoid(p); break;
@@ -803,7 +796,7 @@ public class SamsungRIL extends RIL implements CommandsInterface {
     responseCdmaSubscription(Parcel p) {
         String response[] = (String[])responseStrings(p);
 
-        if (/* mIsSamsungCdma && */ response.length == 4) {
+        if (response.length == 4) {
             // PRL version is missing in subscription parcel, add it from properties.
             String prlVersion = SystemProperties.get("ril.prl_ver_1").split(":")[1];
             response          = new String[] {response[0], response[1], response[2],
