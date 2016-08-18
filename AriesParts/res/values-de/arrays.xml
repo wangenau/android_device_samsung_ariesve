@@ -15,7 +15,7 @@
  -->
 <resources>
     <string-array name="backlight_timeout_entries">
-        <item>Default (1.6 Sekunden)</item>
+        <item>Standard (1.6 Sekunden)</item>
         <item>0.5 Sekunden</item>
         <item>1 Sekunde</item>
         <item>2 Sekunden</item>
@@ -57,7 +57,7 @@
     </string-array>
 
     <string-array name="otg_charge_entries">
-        <item>Nicht laden (Default)</item>
+        <item>Nicht laden (Standard)</item>
         <item>Langsam (USB)</item>
         <item>Schnell (Ladegerät)</item>
     </string-array>
