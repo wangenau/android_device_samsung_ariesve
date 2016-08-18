@@ -25,7 +25,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.MenuItem;
 
 import com.cyanogenmod.settings.device.R;
 
@@ -71,7 +70,6 @@ public class DeviceSettings extends Activity {
         setContentView(mViewPager);
 
         final ActionBar bar = getActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE);
         bar.setTitle(R.string.app_name);
@@ -99,15 +97,6 @@ public class DeviceSettings extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public static class TabsAdapter extends FragmentPagerAdapter
