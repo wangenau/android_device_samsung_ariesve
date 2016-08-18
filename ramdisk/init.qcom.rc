@@ -3,7 +3,11 @@ import init.qcom.usb.rc
 on early-init
     mount debugfs debugfs /sys/kernel/debug
     chmod 0644 /proc/cmdline
+    write /sys/block/mmcblk0/queue/scheduler noop
 
+    # Use lz4 compression for ZRAM
+    write /sys/block/zram0/comp_algorithm lz4
+    
 on init
     mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage/emulated 0555 root root
@@ -48,6 +52,7 @@ on early-boot
     setrlimit 8 67108864 67108864
 
 on boot
+    # Bluetooth
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -212,38 +217,6 @@ on boot
     chown system system /proc/nosim_handler
     copy /data/dump_enable /proc/dump_enable
 
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/boostfreq
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/boostfreq
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/boostpulse
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/boostpulse
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/boosttime
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/boosttime
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/down_differential
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/down_differential
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-    chmod 0664 /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
-    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/boostpulse
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
-    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-
     # Set min cpu frequency
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 245760
 
@@ -282,9 +255,6 @@ on boot
 
 on fs
     chmod 0666 /dev/block/mmcblk0p14
-
-    # Use lz4 compression for ZRAM
-    write /sys/block/zram0/comp_algorithm lz4
     
     mount_all fstab.qcom
     swapon_all fstab.qcom
@@ -427,6 +397,9 @@ on property:init.svc.ril-daemon=running
 
 on property:sys.radio.shutdown=true
     write /sys/devices/platform/rs300000a7.65536/force_sync 1
+
+on property:sys.boot_completed=1
+    write /sys/block/mmcblk0/queue/scheduler row
 
 on property:init.svc.playlpm=running
     chmod 0666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
