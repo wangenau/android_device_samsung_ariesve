@@ -17,7 +17,7 @@
     <string name="app_name">Erweiterte Einstellungen</string>
 
     <!-- Page Headers -->
-    <string name="tab_general_title">GENERAL</string>
+    <string name="tab_general_title">ALLGEMEIN</string>
     <string name="tab_performance_title">PERFORMANCE</string>
     <string name="tab_touchkey_title">TOUCHKEY</string>
     <string name="tab_bln_title">BLN</string>
@@ -34,6 +34,7 @@
     <string name="gsensor_button2">Kalibrieren</string>
 
     <string name="category_fast_charge_title">Ladeeinstellungen</string>
+    <string name="force_fast_charge_usbwarning">Entferne das USB-Kabel</string>
     <string name="force_fast_charge">Schnelles Laden</string>
     <string name="force_fast_charge_summary">Den über USB angeschlossenen PC als Aufladestecker erkennen, um schneller zu laden</string>
 
@@ -44,21 +45,21 @@
     <!-- Page Performance -->
     <string name="category_performance_title">Performance</string>
     <string name="highend_gfx_title">High-End GFX Schalter</string>
-    <string name="highend_gfx_summary_on">High-End Grafikeffekte sind aktiviert, z. B. Transparenz des Sperrbildschirms, der Status- und Benachrichtigungszeile</string>
+    <string name="highend_gfx_summary_on">High-End Grafikeffekte sind aktiviert, z.B. Transparenz des Sperrbildschirms, der Status- und Benachrichtigungszeile</string>
     <string name="highend_gfx_summary_off">High-End Grafikeffekte sind deaktiviert, keine Transparenz des Sperrbildschirms, der Status- und Benachrichtigungszeile</string>
     <string name="highend_gfx_error">High-End Grafikeffekte lassen sich nicht aktivieren. Stelle sicher, dass die App Root-Rechte hat.</string>
 
     <string name="low_ram_title">Low RAM Schalter</string>
-    <string name="low_ram_summary_on">Low RAM ist aktiviert, large-RAM ist deaktiviert.</string>
-    <string name="low_ram_summary_off">Low RAM ist deaktiviert, large-RAM ist aktiviert</string>
-    <string name="low_ram_error">LowRAM Einstellung kann nicht übernommen werden, stelle sicher, dass die App Root Berechtigungen hat.</string>
+    <string name="low_ram_summary_on">Low RAM ist aktiviert, Large RAM ist deaktiviert.</string>
+    <string name="low_ram_summary_off">Low RAM ist deaktiviert, Large RAM ist aktiviert</string>
+    <string name="low_ram_error">Low RAM Einstellung kann nicht übernommen werden. Stelle sicher, dass die App Root Berechtigungen hat.</string>
 
     <string name="category_apps_services_title">Apps und Dienste</string>
-    <string name="max_bg_apps_title">Max Hintergrund Apps</string>
+    <string name="max_bg_apps_title">Maximale Hintergrund Apps</string>
     <string name="max_bg_apps_summary">Legt die maximale Anzahl der gleichzeitig im Hintergrund laufenden Apps fest</string>
     <string name="max_bg_apps_error">Änderung des Limits der im Hintergrund laufenden Apps nicht möglich, die App benötigt Root-Berechtigung.</string>
 
-    <string name="max_bg_services_title">Max Hintergrund Dienste</string>
+    <string name="max_bg_services_title">Maximale Hintergrund Dienste</string>
     <string name="max_bg_services_summary">Legt die maximale Anzahl der gleichzeitig im Hintergrund laufenden Dienste fest</string>
     <string name="max_bg_services_error">Änderung des Limits der im Hintergrund laufenden Dienste nicht möglich, die App benötigt Root-Berechtigung.</string>
 
@@ -75,7 +76,7 @@
     <string name="touchlight_status_summary">(De-)Aktivieren der Touch Key Hintergrundbeleuchtung bei Berührung des Touchscreens</string>
 
     <string name="category_pkfmanager_title">Phantom Tastendrücke</string>
-    <string name="pkfmanager_title">Phantom Tastendrückefilter</string>
+    <string name="pkfmanager_title">Phantom Tastendruckfilter</string>
     <string name="pkfmanager_summary">Filtert durch die Interferenz der Antenne verursachte Tastatureingaben (externe App)</string>
 
     <!-- Page BLN -->
