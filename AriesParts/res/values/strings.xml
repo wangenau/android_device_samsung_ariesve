@@ -50,9 +50,9 @@
     <string name="highend_gfx_error">Impossible to set High-End GFX setting, please grant the root permissions for this app.</string>
 
     <string name="low_ram_title">Low RAM Switch</string>
-    <string name="low_ram_summary_on">Low RAM is enabled, large-RAM features are disabled</string>
-    <string name="low_ram_summary_off">Low RAM is disabled, large-RAM features are enabled</string>
-    <string name="low_ram_error">Impossible to set LowRam setting, please grant the root permissions for this app.</string>
+    <string name="low_ram_summary_on">Low RAM is enabled, Large RAM features are disabled</string>
+    <string name="low_ram_summary_off">Low RAM is disabled, Large RAM features are enabled</string>
+    <string name="low_ram_error">Impossible to set Low Ram setting, please grant the root permissions for this app.</string>
 
     <string name="category_apps_services_title">Apps and Services</string>
     <string name="max_bg_apps_title">Max background apps</string>
