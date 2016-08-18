@@ -330,5 +330,3 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
         }
     }
 }
-
-

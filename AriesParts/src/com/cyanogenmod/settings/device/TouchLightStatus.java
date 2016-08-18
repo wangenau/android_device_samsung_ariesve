@@ -35,5 +35,4 @@ public class TouchLightStatus implements OnPreferenceChangeListener {
         Utils.writeValue(FILE, ((Boolean)newValue) ? "1" : "0");
         return true;
     }
-
 }

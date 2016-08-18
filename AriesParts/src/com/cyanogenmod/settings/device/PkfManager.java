@@ -50,5 +50,4 @@ public class PkfManager implements OnPreferenceClickListener {
         }
         return true;
     }
-
 }

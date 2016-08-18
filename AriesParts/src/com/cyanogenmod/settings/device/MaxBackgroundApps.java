@@ -92,5 +92,4 @@ public class MaxBackgroundApps implements OnPreferenceChangeListener {
             return false;
         }
     }
-
 }

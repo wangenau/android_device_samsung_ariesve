@@ -182,4 +182,3 @@ void ProcessMakerNote(unsigned char * ValuePtr, int ByteCount,
         }
     }
 }
-

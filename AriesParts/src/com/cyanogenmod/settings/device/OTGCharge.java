@@ -37,4 +37,3 @@ public class OTGCharge implements OnPreferenceChangeListener {
         return true;
     }
 }
-

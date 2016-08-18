@@ -55,4 +55,3 @@ public class FastCharge implements OnPreferenceChangeListener {
     }
 
 }
-

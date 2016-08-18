@@ -87,4 +87,3 @@ public class GSensor extends Activity implements SensorEventListener {
     }
 
 }
-

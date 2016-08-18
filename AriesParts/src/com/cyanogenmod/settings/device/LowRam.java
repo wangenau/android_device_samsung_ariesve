@@ -69,5 +69,4 @@ public class LowRam implements OnPreferenceChangeListener {
             return false;
         }
     }
-
 }

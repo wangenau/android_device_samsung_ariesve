@@ -38,4 +38,5 @@
             android:summary="@string/pkfmanager_summary"
             android:title="@string/pkfmanager_title" />
     </PreferenceCategory>
+
 </PreferenceScreen>

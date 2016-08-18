@@ -28,7 +28,6 @@ void healthd_board_init(struct healthd_config *config)
     config->batteryTechnologyPath  = "/sys/class/power_supply/battery/technology";
 }
 
-
 int healthd_board_battery_update(__attribute__((unused)) struct android::BatteryProperties *props)
 {
     // return 0 to log periodic polled battery status to kernel log

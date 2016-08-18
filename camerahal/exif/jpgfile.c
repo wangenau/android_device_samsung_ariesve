@@ -28,7 +28,6 @@ static int HaveAll;
 #endif
 
 
-
 #define PSEUDO_IMAGE_MARKER 0x123; // Extra value.
 //--------------------------------------------------------------------------
 // Get 16 bits motorola order (always) for jpeg header stuff.

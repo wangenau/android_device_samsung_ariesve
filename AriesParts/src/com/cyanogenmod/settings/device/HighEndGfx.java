@@ -70,5 +70,4 @@ public class HighEndGfx implements OnPreferenceChangeListener {
             return false;
         }
     }
-
 }
