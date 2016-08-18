@@ -161,16 +161,11 @@ BOARD_VOLD_MAX_PARTITIONS := 28
 
 # CWM Recovery
 TARGET_RECOVERY_DEVICE_DIRS += device/samsung/ariesve
-TARGET_RECOVERY_INITRC := device/samsung/ariesve/recovery/init.recovery.rc
 TARGET_RECOVERY_FSTAB := device/samsung/ariesve/ramdisk/fstab.qcom
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/ariesve/recovery/recovery_keys.c
-TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/ariesve/recovery/recovery_key
 
 # TWRP recovery
 BOARD_HAS_SDCARD_INTERNAL := true
-BOARD_USES_MMCUTILS := true
-BOARD_HAS_NO_MISC_PARTITION := true
-BOARD_HAS_NO_SELECT_BUTTON := true
 DEVICE_RESOLUTION := 480x800
 TW_TARGET_USES_QCOM_BSP := true
 TW_SCREEN_BLANK_ON_BOOT := true
