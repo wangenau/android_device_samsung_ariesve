@@ -43,5 +43,3 @@ $(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libseccameraadaptor_intermediates/)
 $(shell touch $(OUT)/obj/SHARED_LIBRARIES/libseccameraadaptor_intermediates/export_includes)
 
 include $(BUILD_SHARED_LIBRARY)
-
-

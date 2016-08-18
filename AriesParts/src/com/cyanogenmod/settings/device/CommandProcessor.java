@@ -160,7 +160,7 @@ public class CommandProcessor {
                 return true;
             }
         }
-        return ( cmd.su.runWaitFor("busybox mount -o remount," + mount + " /system").success() );
+        return ( cmd.su.runWaitFor("mount -o remount," + mount + " /system").success() );
     }
 
 

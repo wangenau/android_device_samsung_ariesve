@@ -1,6 +1,7 @@
 #
 # system.prop for ariesve
 #
+
 rild.libpath=/system/lib/libsec-ril.so
 rild.libargs=-d /dev/smd0
 
@@ -44,9 +45,6 @@ ro.vold.umsdirtyratio=20
 # Storage configuration
 persist.sys.vold.switchablepair=sdcard0,sdcard1
 
-# Change to 1 for swapping SD cards
-#persist.sys.vold.switchexternal=0
-
 # Enable repeatable keys in recovery
 ro.cwm.enable_key_repeat=true
 
@@ -55,9 +53,6 @@ ro.sys.fw.bg_apps_limit=16
 
 # Set max background services
 ro.config.max_starting_bg=8
-
-# Disable metadata mode
-debug.camcorder.disablemeta=1
 
 # Use /cache partition to store dex files of system apps
 dalvik.vm.dexopt-data-only=0
@@ -80,3 +75,6 @@ ro.ril.enable.amr.wideband=1
 
 # Disable sending of usage data
 ro.config.nocheckin=1
+
+# Disable atlas services on low-ram targets
+config.disable_atlas=true
