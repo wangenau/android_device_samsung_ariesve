@@ -162,7 +162,6 @@ BOARD_VOLD_MAX_PARTITIONS := 28
 # CWM Recovery
 TARGET_RECOVERY_DEVICE_DIRS += device/samsung/ariesve
 TARGET_RECOVERY_FSTAB := device/samsung/ariesve/ramdisk/fstab.qcom
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/ariesve/recovery/recovery_key
 
 # TWRP recovery
 BOARD_HAS_SDCARD_INTERNAL := true
