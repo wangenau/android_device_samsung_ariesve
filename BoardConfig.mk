@@ -164,7 +164,6 @@ TARGET_RECOVERY_DEVICE_DIRS += device/samsung/ariesve
 TARGET_RECOVERY_FSTAB := device/samsung/ariesve/ramdisk/fstab.qcom
 
 # TWRP recovery
-BOARD_HAS_SDCARD_INTERNAL := true
 DEVICE_RESOLUTION := 480x800
 TW_TARGET_USES_QCOM_BSP := true
 TW_SCREEN_BLANK_ON_BOOT := true
