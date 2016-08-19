@@ -77,16 +77,15 @@ camera_module_t HAL_MODULE_INFO_SYM = {
         .name = "7x30 CameraHal Module",
         .author = "Zhibin Wu",
         .methods = &camera_module_methods,
-        .dso = NULL,
-        .reserved = {0},
+        .dso = NULL, /* remove compilation warnings */
+        .reserved = {0}, /* remove compilation warnings */
     },
 
     .get_number_of_cameras = camera_get_number_of_cameras,
     .get_camera_info = camera_get_camera_info,
-    .set_callbacks = NULL,
-    .get_vendor_tag_ops = NULL,
-    .open_legacy = NULL,
-    .reserved = {0},
+    .set_callbacks = NULL, /* remove compilation warnings */
+    .get_vendor_tag_ops = NULL, /* remove compilation warnings */
+    .reserved = {0}, /* remove compilation warnings */
 };
 
 typedef struct priv_camera_device {
