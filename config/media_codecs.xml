@@ -65,7 +65,7 @@
         </MediaCodec>
         -->
         <MediaCodec name="OMX.qcom.audio.decoder.amrwbplus" type="audio/amr-wb-plus" >
-
+        </MediaCodec>
         <!-- Audio Software  -->
         <MediaCodec name="OMX.google.vorbis.decoder" type="audio/vorbis" />
         <MediaCodec name="OMX.google.gsm.decoder" type="audio/gsm" />
@@ -127,7 +127,6 @@
         <MediaCodec name="OMX.google.h264.decoder" type="video/avc" />
         <MediaCodec name="OMX.google.h263.decoder" type="video/3gpp" />
         <MediaCodec name="OMX.google.mpeg4.decoder" type="video/mp4v-es" />
-
         <!-- ffmpeg audio codecs -->
         <MediaCodec name="OMX.ffmpeg.wma.decoder" type="audio/x-ms-wma" />
         <MediaCodec name="OMX.ffmpeg.ra.decoder" type="audio/vnd.rn-realaudio" />
@@ -137,7 +136,6 @@
         <MediaCodec name="OMX.ffmpeg.ape.decoder" type="audio/x-ape" />
         <MediaCodec name="OMX.ffmpeg.dts.decoder" type="audio/vnd.dts" />
         <MediaCodec name="OMX.ffmpeg.atrial.decoder" type="audio/ffmpeg" />
-
         <!-- ffmpeg video codecs -->
         <MediaCodec name="OMX.ffmpeg.mpeg2v.decoder" type="video/mpeg2" />
         <MediaCodec name="OMX.ffmpeg.wmv.decoder" type="video/x-ms-wmv" />
