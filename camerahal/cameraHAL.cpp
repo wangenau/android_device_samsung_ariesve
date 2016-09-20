@@ -409,7 +409,7 @@ static int camera_set_preview_window(struct camera_device *device,
                         struct preview_stream_ops *window)
 {
     int min_bufs = -1;
-    int kBufferCount = 6;
+    int kBufferCount = 4;
     priv_camera_device_t *dev = NULL;
 
     ALOGI("%s+++,device %p", __FUNCTION__,device);
