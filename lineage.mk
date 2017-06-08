@@ -11,7 +11,7 @@ PRODUCT_AAPT_PREF_CONFIG := hdpi
 PRODUCT_RELEASE_NAME := ariesve
 
 # Setup device configuration
-PRODUCT_NAME := cm_ariesve
+PRODUCT_NAME := lineage_ariesve
 PRODUCT_DEVICE := ariesve
 PRODUCT_BRAND := Samsung
 PRODUCT_MANUFACTURER := Samsung
