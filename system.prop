@@ -43,7 +43,7 @@ persist.sys.usb.config=mtp
 ro.vold.umsdirtyratio=20
 
 # Reduce background apps limit to 16 on low-tier devices
-ro.sys.fw.bg_apps_limit=16
+ro.sys.fw.bg_apps_limit=8
 
 # Set max background services
 ro.config.max_starting_bg=8
