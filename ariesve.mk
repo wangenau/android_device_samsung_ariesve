@@ -198,8 +198,3 @@ PRODUCT_COPY_FILES += \
 
 # Vendor stuff
 $(call inherit-product-if-exists, vendor/samsung/ariesve/device-vendor.mk)
-
-# Gapps stuff
-# Use this at your own risk. Cyanogenmod received a cease and desist letter from Google when they included Google Apps in their ROM.
-# See more: http://android-developers.blogspot.de/2009/09/note-on-google-apps-for-android.html
-# $(call inherit-product-if-exists, vendor/google/build/opengapps-packages.mk)
