@@ -22,9 +22,8 @@ TARGET_BOOTANIMATION_HALF_RES := true
 TARGET_SCREEN_HEIGHT := 800
 TARGET_SCREEN_WIDTH := 480
 
-# Bootsplash and charging image
+# Charging image
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ARIESVE.rle:root/ARIESVE.rle \
     $(LOCAL_PATH)/lpm/charging.rle:root/charging.rle
 
 # Permissions
