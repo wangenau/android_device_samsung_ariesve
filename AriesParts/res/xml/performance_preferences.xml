@@ -46,7 +46,7 @@
             android:key="max_bg_services"
             android:title="@string/max_bg_services_title"
             android:summary="@string/max_bg_services_summary"
-            android:defaultValue="1"
+            android:defaultValue="8"
             cyanogenmod:minValue="1"
             cyanogenmod:maxValue="16" />
     </PreferenceCategory>

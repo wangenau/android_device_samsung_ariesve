@@ -48,11 +48,11 @@ ro.sys.fw.bg_apps_limit=8
 # Use /cache partition to store dex files of system apps
 dalvik.vm.dexopt-data-only=0
 
-# Enable smooth streaming
-mm.enable.smoothstreaming=true
-
 # Enable High-End graphic effects
 persist.sys.force_highendgfx=true
+
+# Enable smooth streaming
+mm.enable.smoothstreaming=true
 
 # Disable profiler
 profiler.force_disable_err_rpt=1
@@ -60,9 +60,6 @@ profiler.force_disable_ulog=1
 
 # Disable live logcat
 logcat.live=disable
-
-# Better voice call quality
-ro.ril.enable.amr.wideband=1
 
 # Disable sending of usage data
 ro.config.nocheckin=1
