@@ -218,6 +218,3 @@ BOARD_SEPOLICY_UNION += \
 
 # Hardware tunables
 BOARD_HARDWARE_CLASS := device/samsung/ariesve/cmhw/
-
-# enable dex-preoptimization
-WITH_DEXPREOPT := true
