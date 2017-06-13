@@ -164,7 +164,8 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.locale.language=en \
-    ro.product.locale.region=GB
+    ro.product.locale.region=GB \
+    wifi.supplicant_scan_interval=15
 
 # Build properties
 ADDITIONAL_DEFAULT_PROPERTIES += \
