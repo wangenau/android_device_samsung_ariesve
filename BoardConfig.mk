@@ -49,6 +49,7 @@ TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT_CPU := cortex-a8
 TARGET_ARCH_VARIANT_FPU := neon
+TARGET_CPU_SMP := false
 
 # Compiler
 TARGET_GCC_VERSION_EXP := 4.8
