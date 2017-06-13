@@ -45,6 +45,9 @@ ro.vold.umsdirtyratio=20
 # Reduce background apps limit to 8 on low-tier devices
 ro.sys.fw.bg_apps_limit=8
 
+# Set max background services
+ro.config.max_starting_bg=8
+
 # Use /cache partition to store dex files of system apps
 dalvik.vm.dexopt-data-only=0
 
