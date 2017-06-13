@@ -174,6 +174,14 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.debuggable=1 \
     persist.service.adb.enable=1
 
+# Audio
+PRODUCT_PROPERTY_OVERRIDES += \
+    audio.offload.disable=1
+
+# Resampler quality
+PRODUCT_PROPERTY_OVERRIDES += \
+af.resampler.quality=4
+
 # For applications to determine if they should turn off specific memory-intensive
 # features that work poorly on low-memory devices.
 PRODUCT_PROPERTY_OVERRIDES += \
