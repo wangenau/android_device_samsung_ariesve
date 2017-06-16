@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
- * Copyright (c) 2012 The CyanogenMod Project
+ * Copyright (c) 2012-2015 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@
 
 #define SCALING_GOVERNOR_PATH "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
 #define BOOSTPULSE_INTERACTIVE "/sys/devices/system/cpu/cpufreq/interactive/boostpulse"
+#define BOOSTPULSE_SMARTASS2 "/sys/devices/system/cpu/cpufreq/smartassV2/boost_pulse"
 
 struct cm_power_module {
     struct power_module base;
@@ -131,7 +132,7 @@ static void configure_governor()
 
     if (strncmp(governor, "interactive", 11) == 0) {
     	get_max_freq();
-        sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time", "90000");
+        sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time", "40000");
         sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/io_is_busy", "1");
         sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load", "90");
         sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/hispeed_freq", max_freq);
@@ -153,6 +154,8 @@ static int boostpulse_open(struct cm_power_module *cm)
         } else {
             if (strncmp(governor, "interactive", 11) == 0)
                 cm->boostpulse_fd = open(BOOSTPULSE_INTERACTIVE, O_WRONLY);
+            else if (strncmp(governor, "smartassV2", 10) == 0)
+                cm->boostpulse_fd = open(BOOSTPULSE_SMARTASS2, O_WRONLY);
 
             if (cm->boostpulse_fd < 0 && !cm->boostpulse_warned) {
                 strerror_r(errno, buf, sizeof(buf));
@@ -176,6 +179,7 @@ static void cm_power_hint(struct power_module *module, power_hint_t hint,
     struct cm_power_module *cm = (struct cm_power_module *) module;
     char buf[80];
     int len;
+    int duration = 1;
 
     switch (hint) {
 #ifndef NO_TOUCH_BOOST
@@ -231,9 +235,9 @@ struct cm_power_module HAL_MODULE_INFO_SYM = {
             .author = "The CyanogenMod Project",
             .methods = &power_module_methods,
         },
-       .init = cm_power_init,
-       .setInteractive = cm_power_set_interactive,
-       .powerHint = cm_power_hint,
+        .init = cm_power_init,
+        .setInteractive = cm_power_set_interactive,
+        .powerHint = cm_power_hint,
     },
 
     .lock = PTHREAD_MUTEX_INITIALIZER,
