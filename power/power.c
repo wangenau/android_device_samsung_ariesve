@@ -108,7 +108,7 @@ static int get_scaling_governor() {
 static void get_max_freq() {
     if (sysfs_read("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
                 max_freq, sizeof(max_freq)) == -1) {
-        strcpy(max_freq, "1024000");
+        strcpy(max_freq, "1401600");
     } else {
         // Strip newline at the end.
         int len = strlen(max_freq);
