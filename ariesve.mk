@@ -164,8 +164,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.locale.language=en \
-    ro.product.locale.region=GB \
-    wifi.supplicant_scan_interval=15
+    ro.product.locale.region=GB
 
 # IO Scheduler
 PRODUCT_PROPERTY_OVERRIDES += \
