@@ -130,7 +130,7 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
     NumDirEntries = Get16u(DirStart);
     #define DIR_ENTRY_ADDR(Start, Entry) (Start+2+12*(Entry))
 
-    if (ShowTags){
+    if (ShowTags) {
         printf("(dir has %d entries)\n",NumDirEntries);
     }
 
@@ -139,7 +139,7 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
     strcpy(CameraHALImageInfo.GpsLong, "? ?");
     CameraHALImageInfo.GpsAlt[0] = 0;
 
-    for (de=0;de<NumDirEntries;de++){
+    for (de=0;de<NumDirEntries;de++) {
         unsigned Tag, Format, Components;
         unsigned char * ValuePtr;
         int ComponentSize;
@@ -147,7 +147,7 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
         unsigned char * DirEntry;
         DirEntry = DIR_ENTRY_ADDR(DirStart, de);
 
-        if (DirEntry+12 > OffsetBase+ExifLength){
+        if (DirEntry+12 > OffsetBase+ExifLength) {
             ErrNonfatal("GPS info directory goes past end of exif",0,0);
             return;
         }
@@ -170,22 +170,22 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
             ByteCount);
 #endif
 
-        if (ByteCount > 4){
+        if (ByteCount > 4) {
             unsigned OffsetVal;
             OffsetVal = Get32u(DirEntry+8);
             // If its bigger than 4 bytes, the dir entry contains an offset.
-            if (OffsetVal+ByteCount > ExifLength){
+            if (OffsetVal+ByteCount > ExifLength) {
                 // Bogus pointer offset and / or bytecount value
                 ErrNonfatal("Illegal value pointer for tag %04x", Tag,0);
                 continue;
             }
             ValuePtr = OffsetBase+OffsetVal;
-        }else{
+        } else {
             // 4 bytes or less and value is in the dir entry itself
             ValuePtr = DirEntry+8;
         }
 
-        switch(Tag){
+        switch(Tag) {
             char FmtString[21];
             char TempString[MAX_BUF_SIZE];
             double Values[3];
@@ -204,16 +204,16 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
 
             case TAG_GPS_LAT:
             case TAG_GPS_LONG:
-                if (Format != FMT_URATIONAL){
+                if (Format != FMT_URATIONAL) {
                     ErrNonfatal("Inappropriate format (%d) for GPS coordinates!", Format, 0);
                 }
                 strcpy(FmtString, "%0.0fd %0.0fm %0.0fs");
-                for (a=0;a<3;a++){
+                for (a=0;a<3;a++) {
                     int den, digits;
 
                     den = Get32s(ValuePtr+4+a*ComponentSize);
                     digits = 0;
-                    while (den > 1 && digits <= 6){
+                    while (den > 1 && digits <= 6) {
                         den = den / 10;
                         digits += 1;
                     }
@@ -226,9 +226,9 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
 
                 sprintf(TempString, FmtString, Values[0], Values[1], Values[2]);
 
-                if (Tag == TAG_GPS_LAT){
+                if (Tag == TAG_GPS_LAT) {
                     strncpy(CameraHALImageInfo.GpsLat+2, TempString, 29);
-                }else{
+                } else {
                     strncpy(CameraHALImageInfo.GpsLong+2, TempString, 29);
                 }
 
@@ -236,9 +236,9 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
                     Get32s(ValuePtr), Get32s(4+(char*)ValuePtr),
                     Get32s(8+(char*)ValuePtr), Get32s(12+(char*)ValuePtr),
                     Get32s(16+(char*)ValuePtr), Get32s(20+(char*)ValuePtr));
-                if (Tag == TAG_GPS_LAT){
+                if (Tag == TAG_GPS_LAT) {
                     strncpy(CameraHALImageInfo.GpsLatRaw, TempString, MAX_BUF_SIZE);
-                }else{
+                } else {
                     strncpy(CameraHALImageInfo.GpsLongRaw, TempString, MAX_BUF_SIZE);
                 }
                 break;
@@ -283,16 +283,16 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
                 break;
         }
 
-        if (ShowTags){
+        if (ShowTags) {
             // Show tag value.
-            if (Tag < MAX_GPS_TAG){
+            if (Tag < MAX_GPS_TAG) {
                 printf("        %s =", GpsTags[Tag].Desc);
-            }else{
+            } else {
                 // Show unknown tag
                 printf("        Illegal GPS tag %04x=", Tag);
             }
 
-            switch(Format){
+            switch(Format) {
                 case FMT_UNDEFINED:
                     // Undefined is typically an ascii string.
 
@@ -300,16 +300,16 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
                     // String arrays printed without function call (different from int arrays)
                     {
                         printf("\"");
-                        for (a=0;a<ByteCount;a++){
+                        for (a=0;a<ByteCount;a++) {
                             int ZeroSkipped = 0;
-                            if (ValuePtr[a] >= 32){
-                                if (ZeroSkipped){
+                            if (ValuePtr[a] >= 32) {
+                                if (ZeroSkipped) {
                                     printf("?");
                                     ZeroSkipped = 0;
                                 }
                                 putchar(ValuePtr[a]);
-                            }else{
-                                if (ValuePtr[a] == 0){
+                            } else {
+                                if (ValuePtr[a] == 0) {
                                     ZeroSkipped = 1;
                                 }
                             }
@@ -320,7 +320,7 @@ void ProcessGpsInfo(unsigned char * DirStart, int ByteCountUnused, unsigned char
 
                 default:
                     // Handle arrays of numbers later (will there ever be?)
-                    for (a=0;;){
+                    for (a=0;;) {
                         PrintFormatNumber(ValuePtr+a*ComponentSize, Format, ByteCount);
                         if (++a >= Components) break;
                         printf(", ");

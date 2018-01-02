@@ -96,13 +96,13 @@ int SensorBase::openInput(const char* inputName) {
     DIR *dir;
     struct dirent *de;
     dir = opendir(dirname);
-    if(dir == NULL)
+    if (dir == NULL)
         return -1;
     strcpy(devname, dirname);
     filename = devname + strlen(devname);
     *filename++ = '/';
     while((de = readdir(dir))) {
-        if(de->d_name[0] == '.' &&
+        if (de->d_name[0] == '.' &&
                 (de->d_name[1] == '\0' ||
                         (de->d_name[1] == '.' && de->d_name[2] == '\0')))
             continue;

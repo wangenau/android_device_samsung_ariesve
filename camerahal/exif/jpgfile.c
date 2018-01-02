@@ -54,21 +54,21 @@ static void process_COM (const uchar * Data, int length)
 
     if (length > MAX_COMMENT_SIZE) length = MAX_COMMENT_SIZE; // Truncate if it won't fit in our structure.
 
-    for (a=2;a<length;a++){
+    for (a=2;a<length;a++) {
         ch = Data[a];
 
         if (ch == '\r' && Data[a+1] == '\n') continue; // Remove cr followed by lf.
 
-        if (ch >= 32 || ch == '\n' || ch == '\t'){
+        if (ch >= 32 || ch == '\n' || ch == '\t') {
             Comment[nch++] = (char)ch;
-        }else{
+        } else {
             Comment[nch++] = '?';
         }
     }
 
     Comment[nch] = '\0'; // Null terminate
 
-    if (ShowTags){
+    if (ShowTags) {
         printf("COM marker comment: %s\n",Comment);
     }
 
@@ -89,15 +89,15 @@ static void process_SOFn (const uchar * Data, int marker)
     CameraHALImageInfo.Width = Get16m(Data+5);
     num_components = Data[7];
 
-    if (num_components == 3){
+    if (num_components == 3) {
         CameraHALImageInfo.IsColor = 1;
-    }else{
+    } else {
         CameraHALImageInfo.IsColor = 0;
     }
 
     CameraHALImageInfo.Process = marker;
 
-    if (ShowTags){
+    if (ShowTags) {
         printf("JPEG image is %uw * %uh, %d color components, %d bits per sample\n",
                    CameraHALImageInfo.Width, CameraHALImageInfo.Height, num_components, data_precision);
     }
@@ -109,13 +109,13 @@ static void process_SOFn (const uchar * Data, int marker)
 //--------------------------------------------------------------------------
 void CheckSectionsAllocated(void)
 {
-    if (SectionsRead > SectionsAllocated){
+    if (SectionsRead > SectionsAllocated) {
         ErrFatal("allocation screwup");
     }
-    if (SectionsRead >= SectionsAllocated){
+    if (SectionsRead >= SectionsAllocated) {
         SectionsAllocated += SectionsAllocated/2;
         Sections = (Section_t *)realloc(Sections, sizeof(Section_t)*SectionsAllocated);
-        if (Sections == NULL){
+        if (Sections == NULL) {
             ErrFatal("could not allocate data for entire image");
         }
     }
@@ -140,22 +140,22 @@ int ReadJpegSectionsFromBuffer (unsigned char* buffer, unsigned int buffer_size,
 
     a = (int) buffer[pos++];
 
-    if (a != 0xff || buffer[pos++] != M_SOI){
+    if (a != 0xff || buffer[pos++] != M_SOI) {
         return FALSE;
     }
 
-    for(;;){
+    for(;;) {
         int itemlen;
         int marker = 0;
         int ll,lh, got;
 
         CheckSectionsAllocated();
 
-        for (a=0;a<=16;a++){
+        for (a=0;a<=16;a++) {
             marker = buffer[pos++];
             if (marker != 0xff) break;
 
-            if (a >= 16){
+            if (a >= 16) {
                 fprintf(stderr,"too many padding bytes\n");
                 return FALSE;
             }
@@ -184,11 +184,11 @@ int ReadJpegSectionsFromBuffer (unsigned char* buffer, unsigned int buffer_size,
         SectionsRead += 1;
 
         ALOGE("reading marker %d", marker);
-        switch(marker){
+        switch(marker) {
             case M_EXIF:
                 // There can be different section using the same marker.
-                if (ReadMode & READ_METADATA){
-                    if (memcmp(buffer+pos, "Exif", 4) == 0){
+                if (ReadMode & READ_METADATA) {
+                    if (memcmp(buffer+pos, "Exif", 4) == 0) {
                         process_EXIF(buffer+(pos-2), itemlen);
                         break;
                     }
@@ -196,7 +196,7 @@ int ReadJpegSectionsFromBuffer (unsigned char* buffer, unsigned int buffer_size,
                 break;
             default:
                 // Skip any other sections.
-                if (ShowTags){
+                if (ShowTags) {
                     ALOGD("Jpeg section marker 0x%02x size %d\n",marker, itemlen);
                 }
                 break;
@@ -226,20 +226,20 @@ int SaveThumbnail(char * ThumbFileName)
 {
     FILE * ThumbnailFile;
 
-    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailSize == 0){
+    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailSize == 0) {
         fprintf(stderr,"Image contains no thumbnail\n");
         return FALSE;
     }
 
-    if (strcmp(ThumbFileName, "-") == 0){
+    if (strcmp(ThumbFileName, "-") == 0) {
         // A filename of '-' indicates thumbnail goes to stdout.
         // This doesn't make much sense under Windows, so this feature is unix only.
         ThumbnailFile = stdout;
-    }else{
+    } else {
         ThumbnailFile = fopen(ThumbFileName,"wb");
     }
 
-    if (ThumbnailFile){
+    if (ThumbnailFile) {
         uchar * ThumbnailPointer;
         Section_t * ExifSection;
         ExifSection = FindSection(M_EXIF);
@@ -248,7 +248,7 @@ int SaveThumbnail(char * ThumbFileName)
         fwrite(ThumbnailPointer, CameraHALImageInfo.ThumbnailSize ,1, ThumbnailFile);
         fclose(ThumbnailFile);
         return TRUE;
-    }else{
+    } else {
         // ErrFatal("Could not write thumbnail file");
         ALOGE("Could not write thumbnail file");
         return FALSE;
@@ -264,8 +264,8 @@ int ReplaceThumbnailFromBuffer(const char * Thumb, int ThumbLen)
     Section_t * ExifSection;
     uchar * ThumbnailPointer;
 
-    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailAtEnd == FALSE){
-        if (Thumb == NULL){
+    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailAtEnd == FALSE) {
+        if (Thumb == NULL) {
             // Delete of nonexistent thumbnail (not even pointers present)
             // No action, no error.
             return FALSE;
@@ -281,13 +281,13 @@ int ReplaceThumbnailFromBuffer(const char * Thumb, int ThumbLen)
     }
 
     if (Thumb) {
-        if (ThumbLen + CameraHALImageInfo.ThumbnailOffset > 0x10000-20){
-	        //ErrFatal("Thumbnail is too large to insert into exif header");
-	        ALOGE("Thumbnail is too large to insert into exif header");
-	        return FALSE;
+        if (ThumbLen + CameraHALImageInfo.ThumbnailOffset > 0x10000-20) {
+                //ErrFatal("Thumbnail is too large to insert into exif header");
+                ALOGE("Thumbnail is too large to insert into exif header");
+                return FALSE;
         }
     } else {
-        if (CameraHALImageInfo.ThumbnailSize == 0){
+        if (CameraHALImageInfo.ThumbnailSize == 0) {
              return FALSE;
         }
 
@@ -301,7 +301,7 @@ int ReplaceThumbnailFromBuffer(const char * Thumb, int ThumbLen)
 
     ThumbnailPointer = ExifSection->Data+CameraHALImageInfo.ThumbnailOffset+8;
 
-    if (Thumb){
+    if (Thumb) {
         memcpy(ThumbnailPointer, Thumb, ThumbLen);
     }
 
@@ -329,8 +329,8 @@ int ReplaceThumbnail(const char * ThumbFileName)
     Section_t * ExifSection;
     uchar * ThumbnailPointer;
 
-    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailAtEnd == FALSE){
-        if (ThumbFileName == NULL){
+    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailAtEnd == FALSE) {
+        if (ThumbFileName == NULL) {
             // Delete of nonexistent thumbnail (not even pointers present)
             // No action, no error.
             return FALSE;
@@ -345,12 +345,12 @@ int ReplaceThumbnail(const char * ThumbFileName)
         return FALSE;
     }
 
-    if (ThumbFileName){
+    if (ThumbFileName) {
         ThumbnailFile = fopen(ThumbFileName,"rb");
 
-        if (ThumbnailFile == NULL){
-	        //ErrFatal("Could not read thumbnail file");
-	        ALOGE("Could not read thumbnail file");
+        if (ThumbnailFile == NULL) {
+                //ErrFatal("Could not read thumbnail file");
+                ALOGE("Could not read thumbnail file");
             return FALSE;
         }
 
@@ -360,13 +360,13 @@ int ReplaceThumbnail(const char * ThumbFileName)
         ThumbLen = ftell(ThumbnailFile);
         fseek(ThumbnailFile, 0, SEEK_SET);
 
-        if (ThumbLen + CameraHALImageInfo.ThumbnailOffset > 0x10000-20){
-	        //ErrFatal("Thumbnail is too large to insert into exif header");
-	        ALOGE("Thumbnail is too large to insert into exif header");
-	        return FALSE;
+        if (ThumbLen + CameraHALImageInfo.ThumbnailOffset > 0x10000-20) {
+                //ErrFatal("Thumbnail is too large to insert into exif header");
+                ALOGE("Thumbnail is too large to insert into exif header");
+                return FALSE;
         }
-    }else{
-        if (CameraHALImageInfo.ThumbnailSize == 0){
+    } else {
+        if (CameraHALImageInfo.ThumbnailSize == 0) {
              return FALSE;
         }
 
@@ -381,7 +381,7 @@ int ReplaceThumbnail(const char * ThumbFileName)
 
     ThumbnailPointer = ExifSection->Data+CameraHALImageInfo.ThumbnailOffset+8;
 
-    if (ThumbnailFile){
+    if (ThumbnailFile) {
         fread(ThumbnailPointer, ThumbLen, 1, ThumbnailFile);
         fclose(ThumbnailFile);
     }
@@ -417,34 +417,34 @@ void DiscardAllButExif(void)
     memset(&IptcKeeper, 0, sizeof(IptcKeeper));
     memset(&XmpKeeper, 0, sizeof(IptcKeeper));
 
-    for (a=0;a<SectionsRead;a++){
-        if (Sections[a].Type == M_EXIF && ExifKeeper.Type == 0){
+    for (a=0;a<SectionsRead;a++) {
+        if (Sections[a].Type == M_EXIF && ExifKeeper.Type == 0) {
            ExifKeeper = Sections[a];
-        }else if (Sections[a].Type == M_XMP && XmpKeeper.Type == 0){
+        } else if (Sections[a].Type == M_XMP && XmpKeeper.Type == 0) {
            XmpKeeper = Sections[a];
-        }else if (Sections[a].Type == M_COM && CommentKeeper.Type == 0){
+        } else if (Sections[a].Type == M_COM && CommentKeeper.Type == 0) {
             CommentKeeper = Sections[a];
-        }else if (Sections[a].Type == M_IPTC && IptcKeeper.Type == 0){
+        } else if (Sections[a].Type == M_IPTC && IptcKeeper.Type == 0) {
             IptcKeeper = Sections[a];
-        }else{
+        } else{
             free(Sections[a].Data);
         }
     }
     SectionsRead = 0;
-    if (ExifKeeper.Type){
+    if (ExifKeeper.Type) {
         CheckSectionsAllocated();
         Sections[SectionsRead++] = ExifKeeper;
     }
-    if (CommentKeeper.Type){
+    if (CommentKeeper.Type) {
         CheckSectionsAllocated();
         Sections[SectionsRead++] = CommentKeeper;
     }
-    if (IptcKeeper.Type){
+    if (IptcKeeper.Type) {
         CheckSectionsAllocated();
         Sections[SectionsRead++] = IptcKeeper;
     }
 
-    if (XmpKeeper.Type){
+    if (XmpKeeper.Type) {
         CheckSectionsAllocated();
         Sections[SectionsRead++] = XmpKeeper;
     }
@@ -458,13 +458,13 @@ int WriteJpegFile(const char * FileName)
     FILE * outfile;
     int a;
 
-    if (!HaveAll){
+    if (!HaveAll) {
         ALOGE("Can't write back - didn't read all");
         return FALSE;
     }
 
     outfile = fopen(FileName,"wb");
-    if (outfile == NULL){
+    if (outfile == NULL) {
         ALOGE("Could not open file for write");
         return FALSE;
     }
@@ -473,7 +473,7 @@ int WriteJpegFile(const char * FileName)
     fputc(0xff,outfile);
     fputc(0xd8,outfile);
     
-    if (Sections[0].Type != M_EXIF && Sections[0].Type != M_JFIF){
+    if (Sections[0].Type != M_EXIF && Sections[0].Type != M_JFIF) {
         // The image must start with an exif or jfif marker.  If we threw those away, create one.
         static uchar JfifHead[18] = {
             0xff, M_JFIF,
@@ -486,22 +486,22 @@ int WriteJpegFile(const char * FileName)
     int writeOk = FALSE;
     int nWrite = 0;
     // Write all the misc sections
-    for (a=0;a<SectionsRead-1;a++){
+    for (a=0;a<SectionsRead-1;a++) {
         fputc(0xff,outfile);
         fputc((unsigned char)Sections[a].Type, outfile);
-	nWrite = fwrite(Sections[a].Data, 1, Sections[a].Size, outfile);
+        nWrite = fwrite(Sections[a].Data, 1, Sections[a].Size, outfile);
         writeOk = (nWrite == Sections[a].Size);
-        if(!writeOk){
+        if(!writeOk) {
             ALOGE("write section %d failed expect %d actual %d",a,Sections[a].Size,nWrite);
             break;
         }
     }
 
     // Write the remaining image data.
-    if (writeOk){
+    if (writeOk) {
         nWrite = fwrite(Sections[a].Data, 1,Sections[a].Size, outfile);
-	writeOk = (nWrite == Sections[a].Size);
-        if (!writeOk){
+        writeOk = (nWrite == Sections[a].Size);
+        if (!writeOk) {
             ALOGE("write section %d failed expect %d actual %d",a,Sections[a].Size,nWrite);
         }
     }
@@ -526,7 +526,7 @@ int WriteJpegToBuffer(unsigned char* buffer, unsigned int buffer_size)
         return FALSE;
     }
 
-    if (!HaveAll){
+    if (!HaveAll) {
         ALOGE("Can't write back - didn't read all");
         return FALSE;
     }
@@ -535,7 +535,7 @@ int WriteJpegToBuffer(unsigned char* buffer, unsigned int buffer_size)
     buffer[pos++] = 0xff;
     buffer[pos++] = 0xd8;
 
-    if (Sections[0].Type != M_EXIF && Sections[0].Type != M_JFIF){
+    if (Sections[0].Type != M_EXIF && Sections[0].Type != M_JFIF) {
         // The image must start with an exif or jfif marker.  If we threw those away, create one.
         static uchar JfifHead[18] = {
             0xff, M_JFIF,
@@ -549,7 +549,7 @@ int WriteJpegToBuffer(unsigned char* buffer, unsigned int buffer_size)
     int writeOk = FALSE;
     int nWrite = 0;
     // Write all the misc sections
-    for (a=0;a<SectionsRead-1;a++){
+    for (a=0;a<SectionsRead-1;a++) {
         buffer[pos++] = 0xff;
         buffer[pos++] = (unsigned char) Sections[a].Type;
         if (pos+Sections[a].Size > buffer_size) {
@@ -562,7 +562,7 @@ int WriteJpegToBuffer(unsigned char* buffer, unsigned int buffer_size)
     }
 
     // Write the remaining image data.
-    if (writeOk){
+    if (writeOk) {
         if (pos+Sections[a].Size > buffer_size) {
             writeOk = FALSE;
         } else {
@@ -582,8 +582,8 @@ Section_t * FindSection(int SectionType)
 {
     int a;
 
-    for (a=0;a<SectionsRead;a++){
-        if (Sections[a].Type == SectionType){
+    for (a=0;a<SectionsRead;a++) {
+        if (Sections[a].Type == SectionType) {
             return &Sections[a];
         }
     }
@@ -597,8 +597,8 @@ Section_t * FindSection(int SectionType)
 int RemoveSectionType(int SectionType)
 {
     int a;
-    for (a=0;a<SectionsRead-1;a++){
-        if (Sections[a].Type == SectionType){
+    for (a=0;a<SectionsRead-1;a++) {
+        if (Sections[a].Type == SectionType) {
             // Free up this section
             free (Sections[a].Data);
             // Move succeding sections back by one to close space in array.
@@ -617,8 +617,8 @@ int RemoveUnknownSections(void)
 {
     int a;
     int Modified = FALSE;
-    for (a=0;a<SectionsRead-1;){
-        switch(Sections[a].Type){
+    for (a=0;a<SectionsRead-1;) {
+        switch(Sections[a].Type) {
             case  M_SOF0:
             case  M_SOF1:
             case  M_SOF2:
@@ -674,14 +674,14 @@ Section_t * CreateSection(int SectionType, unsigned char * Data, int Size)
     // Insert it in third position - seems like a safe place to put 
     // things like comments.
 
-    if (SectionsRead < NewIndex){
+    if (SectionsRead < NewIndex) {
         // ErrFatal("Too few sections!");
         ALOGE("Too few sections!");
         return FALSE;
     }
 
     CheckSectionsAllocated();
-    for (a=SectionsRead;a>NewIndex;a--){
+    for (a=SectionsRead;a>NewIndex;a--) {
         Sections[a] = Sections[a-1];          
     }
     SectionsRead += 1;
@@ -701,7 +701,7 @@ Section_t * CreateSection(int SectionType, unsigned char * Data, int Size)
 //--------------------------------------------------------------------------
 void ResetJpgfile(void)
 {
-    if (Sections == NULL){
+    if (Sections == NULL) {
         Sections = (Section_t *)malloc(sizeof(Section_t)*5);
         SectionsAllocated = 5;
     }

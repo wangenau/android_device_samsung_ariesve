@@ -321,10 +321,10 @@ int IsDateTimeTag(unsigned short tag)
 //--------------------------------------------------------------------------
 static void Put16u(void * Short, unsigned short PutValue)
 {
-    if (MotorolaOrder){
+    if (MotorolaOrder) {
         ((uchar *)Short)[0] = (uchar)(PutValue>>8);
         ((uchar *)Short)[1] = (uchar)PutValue;
-    }else{
+    } else {
         ((uchar *)Short)[0] = (uchar)PutValue;
         ((uchar *)Short)[1] = (uchar)(PutValue>>8);
     }
@@ -335,9 +335,9 @@ static void Put16u(void * Short, unsigned short PutValue)
 //--------------------------------------------------------------------------
 int Get16u(void * Short)
 {
-    if (MotorolaOrder){
+    if (MotorolaOrder) {
         return (((uchar *)Short)[0] << 8) | ((uchar *)Short)[1];
-    }else{
+    } else {
         return (((uchar *)Short)[1] << 8) | ((uchar *)Short)[0];
     }
 }
@@ -347,10 +347,10 @@ int Get16u(void * Short)
 //--------------------------------------------------------------------------
 int Get32s(void * Long)
 {
-    if (MotorolaOrder){
+    if (MotorolaOrder) {
         return  ((( char *)Long)[0] << 24) | (((uchar *)Long)[1] << 16)
               | (((uchar *)Long)[2] << 8 ) | (((uchar *)Long)[3] << 0 );
-    }else{
+    } else {
         return  ((( char *)Long)[3] << 24) | (((uchar *)Long)[2] << 16)
               | (((uchar *)Long)[1] << 8 ) | (((uchar *)Long)[0] << 0 );
     }
@@ -361,12 +361,12 @@ int Get32s(void * Long)
 //--------------------------------------------------------------------------
 void Put32u(void * Value, unsigned PutValue)
 {
-    if (MotorolaOrder){
+    if (MotorolaOrder) {
         ((uchar *)Value)[0] = (uchar)(PutValue>>24);
         ((uchar *)Value)[1] = (uchar)(PutValue>>16);
         ((uchar *)Value)[2] = (uchar)(PutValue>>8);
         ((uchar *)Value)[3] = (uchar)PutValue;
-    }else{
+    } else {
         ((uchar *)Value)[0] = (uchar)PutValue;
         ((uchar *)Value)[1] = (uchar)(PutValue>>8);
         ((uchar *)Value)[2] = (uchar)(PutValue>>16);
@@ -389,8 +389,8 @@ void PrintFormatNumber(void * ValuePtr, int Format, int ByteCount)
 {
     int s,n;
 
-    for(n=0;n<16;n++){
-        switch(Format){
+    for(n=0;n<16;n++) {
+        switch(Format) {
             case FMT_SBYTE:
             case FMT_BYTE:      printf("%02x",*(uchar *)ValuePtr); s=1;  break;
             case FMT_USHORT:    printf("%d",Get16u(ValuePtr)); s=2;      break;
@@ -427,7 +427,7 @@ double ConvertAnyFormat(void * ValuePtr, int Format)
     double Value;
     Value = 0;
 
-    switch(Format){
+    switch(Format) {
         case FMT_SBYTE:     Value = *(signed char *)ValuePtr;  break;
         case FMT_BYTE:      Value = *(uchar *)ValuePtr;        break;
 
@@ -440,9 +440,9 @@ double ConvertAnyFormat(void * ValuePtr, int Format)
                 int Num,Den;
                 Num = Get32s(ValuePtr);
                 Den = Get32s(4+(char *)ValuePtr);
-                if (Den == 0){
+                if (Den == 0) {
                     Value = 0;
-                }else{
+                } else {
                     Value = (double)Num/Den;
                 }
                 break;
@@ -551,7 +551,7 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
     char IndentString[25];
 
     printf("ProcessExifDir");
-    if (NestingLevel > 4){
+    if (NestingLevel > 4) {
         ErrNonfatal("Maximum directory nesting exceeded (corrupt exif header)", 0,0);
         return;
     }
@@ -566,27 +566,27 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
     {
         unsigned char * DirEnd;
         DirEnd = DIR_ENTRY_ADDR(DirStart, NumDirEntries);
-        if (DirEnd+4 > (OffsetBase+ExifLength)){
-            if (DirEnd+2 == OffsetBase+ExifLength || DirEnd == OffsetBase+ExifLength){
+        if (DirEnd+4 > (OffsetBase+ExifLength)) {
+            if (DirEnd+2 == OffsetBase+ExifLength || DirEnd == OffsetBase+ExifLength) {
                 // Version 1.3 of jhead would truncate a bit too much.
                 // This also caught later on as well.
-            }else{
+            } else {
                 ErrNonfatal("Illegally sized exif subdirectory (%d entries)",NumDirEntries,0);
                 return;
             }
         }
-        if (DumpExifMap){
+        if (DumpExifMap) {
             printf("Map: %05d-%05d: Directory\n",(int)(DirStart-OffsetBase), (int)(DirEnd+4-OffsetBase));
         }
 
 
     }
 
-    if (ShowTags){
+    if (ShowTags) {
         printf("(dir has %d entries)\n",NumDirEntries);
     }
 
-    for (de=0;de<NumDirEntries;de++){
+    for (de=0;de<NumDirEntries;de++) {
         int Tag, Format, Components;
         unsigned char * ValuePtr;
         int ByteCount;
@@ -603,53 +603,53 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
             continue;
         }
 
-        if ((unsigned)Components > 0x10000){
+        if ((unsigned)Components > 0x10000) {
             ErrNonfatal("Illegal number of components %d for tag %04x", Components, Tag);
             continue;
         }
 
         ByteCount = Components * BytesPerFormat[Format];
 
-        if (ByteCount > 4){
+        if (ByteCount > 4) {
             unsigned OffsetVal;
             OffsetVal = Get32u(DirEntry+8);
             // If its bigger than 4 bytes, the dir entry contains an offset.
-            if (OffsetVal+ByteCount > ExifLength){
+            if (OffsetVal+ByteCount > ExifLength) {
                 // Bogus pointer offset and / or bytecount value
                 ErrNonfatal("Illegal value pointer for tag %04x", Tag,0);
                 continue;
             }
             ValuePtr = OffsetBase+OffsetVal;
 
-            if (OffsetVal > CameraHALImageInfo.LargestExifOffset){
+            if (OffsetVal > CameraHALImageInfo.LargestExifOffset) {
                 CameraHALImageInfo.LargestExifOffset = OffsetVal;
             }
 
-            if (DumpExifMap){
+            if (DumpExifMap) {
                 printf("Map: %05d-%05d:   Data for tag %04x\n",OffsetVal, OffsetVal+ByteCount, Tag);
             }
-        }else{
+        } else {
             // 4 bytes or less and value is in the dir entry itself
             ValuePtr = DirEntry+8;
         }
 
-        if (Tag == TAG_MAKER_NOTE){
-            if (ShowTags){
+        if (Tag == TAG_MAKER_NOTE) {
+            if (ShowTags) {
                 printf("%s    Maker note: ",IndentString);
             }
             ProcessMakerNote(ValuePtr, ByteCount, OffsetBase, ExifLength);
             continue;
         }
 
-        if (ShowTags){
+        if (ShowTags) {
             // Show tag name
-            for (a=0;;a++){
-                if (a >= (int)TAG_TABLE_SIZE){
+            for (a=0;;a++) {
+                if (a >= (int)TAG_TABLE_SIZE) {
                     printf("%s", IndentString);
                     printf("    Unknown Tag %04x Value = ", Tag);
                     break;
                 }
-                if (TagTable[a].Tag == Tag){
+                if (TagTable[a].Tag == Tag) {
                     printf("%s", IndentString);
                     printf("    %s = ",TagTable[a].Desc);
                     break;
@@ -657,11 +657,11 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
             }
 
             // Show tag value.
-            switch(Format){
+            switch(Format) {
                 case FMT_BYTE:
-                    if(ByteCount>1){
+                    if (ByteCount>1) {
                         printf("%.*ls\n", ByteCount/2, (wchar_t *)ValuePtr);
-                    }else{
+                    } else {
                         PrintFormatNumber(ValuePtr, Format, ByteCount);
                         printf("\n");
                     }
@@ -676,14 +676,14 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
                           printf("\"%s\"", ValuePtr);
 //                        int NoPrint = 0;
 //                        printf("\"");
-//                        for (a=0;a<ByteCount;a++){
-//                            if (ValuePtr[a] >= 32){
+//                        for (a=0;a<ByteCount;a++) {
+//                            if (ValuePtr[a] >= 32) {
 //                                putchar(ValuePtr[a]);
 //                                NoPrint = 0;
-//                            }else{
+//                            } else {
 //                                // Avoiding indicating too many unprintable characters of proprietary
 //                                // bits of binary information this program may not know how to parse.
-//                                if (!NoPrint && a != ByteCount-1){
+//                                if (!NoPrint && a != ByteCount-1) {
 //                                    putchar('?');
 //                                    NoPrint = 1;
 //                                }
@@ -701,9 +701,9 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
         }
 
         // Extract useful components of tag
-        switch(Tag){
+        switch(Tag) {
             case TAG_ORIENTATION:
-                if (NumOrientations >= 2){
+                if (NumOrientations >= 2) {
                     // Can have another orientation tag for the thumbnail, but if there's
                     // a third one, things are stringae.
                     ErrNonfatal("More than two orientation tags!",0,0);
@@ -711,7 +711,7 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
                 }
                 OrientationPtr[NumOrientations] = ValuePtr;
                 OrientationNumFormat[NumOrientations] = Format;
-                if (NumOrientations == 0){
+                if (NumOrientations == 0) {
                     CameraHALImageInfo.Orientation = (int)ConvertAnyFormat(ValuePtr, Format);
                     ALOGE("Original Orientation = %d", CameraHALImageInfo.Orientation);
                     switch (CameraHALImageInfo.Orientation) {
@@ -731,7 +731,7 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
                     ALOGE("Orientation = %d", CameraHALImageInfo.Orientation);
                     Put16u(ValuePtr, CameraHALImageInfo.Orientation);             
                 }
-                if (CameraHALImageInfo.Orientation < 0 || CameraHALImageInfo.Orientation > 8){
+                if (CameraHALImageInfo.Orientation < 0 || CameraHALImageInfo.Orientation > 8) {
                     ErrNonfatal("Undefined rotation value %d", CameraHALImageInfo.Orientation, 0);
                     CameraHALImageInfo.Orientation = 0;
                 }
@@ -748,46 +748,46 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
         unsigned char * SubdirStart;
         unsigned Offset;
 
-        if (DIR_ENTRY_ADDR(DirStart, NumDirEntries) + 4 <= OffsetBase+ExifLength){
+        if (DIR_ENTRY_ADDR(DirStart, NumDirEntries) + 4 <= OffsetBase+ExifLength) {
             printf("DirStart %d offset from dirstart %d", (int)DirStart, 2+12*NumDirEntries);
             Offset = Get32u(DirStart+2+12*NumDirEntries);
-            if (Offset){
+            if (Offset) {
                 SubdirStart = OffsetBase + Offset;
-                if (SubdirStart > OffsetBase+ExifLength || SubdirStart < OffsetBase){
+                if (SubdirStart > OffsetBase+ExifLength || SubdirStart < OffsetBase) {
                     printf("SubdirStart %d OffsetBase %d ExifLength %d Offset %d",
                         (int)SubdirStart, (int)OffsetBase, ExifLength, Offset);
-                    if (SubdirStart > OffsetBase && SubdirStart < OffsetBase+ExifLength+20){
+                    if (SubdirStart > OffsetBase && SubdirStart < OffsetBase+ExifLength+20) {
                         // Jhead 1.3 or earlier would crop the whole directory!
                         // As Jhead produces this form of format incorrectness,
                         // I'll just let it pass silently
                         if (ShowTags) printf("Thumbnail removed with Jhead 1.3 or earlier\n");
-                    }else{
+                    } else {
                         ErrNonfatal("Illegal subdirectory link",0,0);
                     }
-                }else{
-                    if (SubdirStart <= OffsetBase+ExifLength){
+                } else {
+                    if (SubdirStart <= OffsetBase+ExifLength) {
                         if (ShowTags) printf("%s    Continued directory ",IndentString);
                         ProcessExifDir(SubdirStart, OffsetBase, ExifLength, NestingLevel+1);
                     }
                 }
-                if (Offset > CameraHALImageInfo.LargestExifOffset){
+                if (Offset > CameraHALImageInfo.LargestExifOffset) {
                     CameraHALImageInfo.LargestExifOffset = Offset;
                 }
             }
-        }else{
+        } else {
             // The exif header ends before the last next directory pointer.
         }
     }
 
-    if (ThumbnailOffset){
+    if (ThumbnailOffset) {
         CameraHALImageInfo.ThumbnailAtEnd = FALSE;
 
-        if (DumpExifMap){
+        if (DumpExifMap) {
             printf("Map: %05d-%05d: Thumbnail\n",ThumbnailOffset, ThumbnailOffset+ThumbnailSize);
         }
 
-        if (ThumbnailOffset <= ExifLength){
-            if (ThumbnailSize > ExifLength-ThumbnailOffset){
+        if (ThumbnailOffset <= ExifLength) {
+            if (ThumbnailSize > ExifLength-ThumbnailOffset) {
                 // If thumbnail extends past exif header, only save the part that
                 // actually exists.  Canon's EOS viewer utility will do this - the
                 // thumbnail extracts ok with this hack.
@@ -799,7 +799,7 @@ static void ProcessExifDir(unsigned char * DirStart, unsigned char * OffsetBase,
             CameraHALImageInfo.ThumbnailOffset = ThumbnailOffset;
             CameraHALImageInfo.ThumbnailSize = ThumbnailSize;
 
-            if (ShowTags){
+            if (ShowTags) {
                 printf("Thumbnail size: %d bytes\n",ThumbnailSize);
             }
         }
@@ -821,39 +821,39 @@ void process_EXIF (unsigned char * ExifSection, unsigned int length)
     ExifImageWidth = 0;
     NumOrientations = 0;
 
-    if (ShowTags){
+    if (ShowTags) {
         printf("Exif header %d bytes long\n",length);
     }
 
     {   // Check the EXIF header component
         static uchar ExifHeader[] = "Exif\0\0";
-        if (memcmp(ExifSection+2, ExifHeader,6)){
+        if (memcmp(ExifSection+2, ExifHeader,6)) {
             ErrNonfatal("Incorrect Exif header",0,0);
             return;
         }
     }
 
-    if (memcmp(ExifSection+8,"II",2) == 0){
+    if (memcmp(ExifSection+8,"II",2) == 0) {
         if (ShowTags) printf("Exif section in Intel order\n");
         MotorolaOrder = 0;
-    }else{
-        if (memcmp(ExifSection+8,"MM",2) == 0){
+    } else {
+        if (memcmp(ExifSection+8,"MM",2) == 0) {
             if (ShowTags) printf("Exif section in Motorola order\n");
             MotorolaOrder = 1;
-        }else{
+        } else {
             ErrNonfatal("Invalid Exif alignment marker.",0,0);
             return;
         }
     }
 
     // Check the next value for correctness.
-    if (Get16u(ExifSection+10) != 0x2a){
+    if (Get16u(ExifSection+10) != 0x2a) {
         ErrNonfatal("Invalid Exif start (1)",0,0);
         return;
     }
 
     FirstOffset = Get32u(ExifSection+12);
-    if (FirstOffset < 8 || FirstOffset > 16){
+    if (FirstOffset < 8 || FirstOffset > 16) {
         // Usually set to 8, but other values valid too.
         ErrNonfatal("Suspicious offset of first IFD value",0,0);
         return;
@@ -869,10 +869,10 @@ void process_EXIF (unsigned char * ExifSection, unsigned int length)
 #ifdef SUPERDEBUG
     printf("Thumbnail %s end", (CameraHALImageInfo.ThumbnailAtEnd ? "at" : "NOT at"));
 #endif
-    if (DumpExifMap){
+    if (DumpExifMap) {
         unsigned a,b;
         printf("Map: %05d- End of exif\n",length-8);
-//        for (a=0;a<length-8;a+= 10){
+//        for (a=0;a<length-8;a+= 10) {
 //            printf("Map: %05d ",a);
 //            for (b=0;b<10;b++) printf(" %02x",*(ExifSection+8+a+b));
 //            printf("\n");
@@ -886,7 +886,7 @@ void process_EXIF (unsigned char * ExifSection, unsigned int length)
 
 
     // Compute the CCD width, in millimeters.
-    if (FocalplaneXRes != 0){
+    if (FocalplaneXRes != 0) {
         // Note: With some cameras, its not possible to compute this correctly because
         // they don't adjust the indicated focal plane resolution units when using less
         // than maximum resolution, so the CCDWidth value comes out too small.  Nothing
@@ -894,7 +894,7 @@ void process_EXIF (unsigned char * ExifSection, unsigned int length)
         CameraHALImageInfo.CCDWidth = (float)(ExifImageWidth * FocalplaneUnits / FocalplaneXRes);
 
         if (CameraHALImageInfo.FocalLength.num != 0 && CameraHALImageInfo.FocalLength.denom != 0
-            && CameraHALImageInfo.FocalLength35mmEquiv == 0){
+            && CameraHALImageInfo.FocalLength35mmEquiv == 0) {
             // Compute 35 mm equivalent focal length based on sensor geometry if we haven't
             // already got it explicitly from a tag.
             CameraHALImageInfo.FocalLength35mmEquiv = (int)(
@@ -944,7 +944,7 @@ static void writeExifTagAndData(int tag,
     if (format == FMT_UNDEFINED && components == -1) {
         // check if this UNDEFINED format is actually ASCII (as it usually is)
         // if so, we can calculate the size
-        if(memcmp((char*)value, ExifAsciiPrefix, sizeof(ExifAsciiPrefix)) == 0) {
+        if (memcmp((char*)value, ExifAsciiPrefix, sizeof(ExifAsciiPrefix)) == 0) {
             components = sizeof(ExifAsciiPrefix) +
                          strlen((char*)value + sizeof(ExifAsciiPrefix)) + 1;
             if (components & 1) ++components;               // no odd lengths
@@ -1264,7 +1264,7 @@ static void create_EXIF_internal(ExifElement_t* elements, int exifTagCount, int 
         // Sections need malloced buffers, so do that now, especially because
         // we now know how big it needs to be allocated.
         unsigned char * NewBuf = malloc(DataWriteIndex);
-        if (NewBuf == NULL){
+        if (NewBuf == NULL) {
             ErrFatal("Could not allocate memory");
         }
         memcpy(NewBuf, Buffer, DataWriteIndex);
@@ -1300,8 +1300,8 @@ const char * ClearOrientation(void)
     int a;
     if (NumOrientations == 0) return NULL;
 
-    for (a=0;a<NumOrientations;a++){
-        switch(OrientationNumFormat[a]){
+    for (a=0;a<NumOrientations;a++) {
+        switch(OrientationNumFormat[a]) {
             case FMT_SBYTE:
             case FMT_BYTE:
                 *(uchar *)(OrientationPtr[a]) = 1;
@@ -1315,9 +1315,9 @@ const char * ClearOrientation(void)
             case FMT_SLONG:
                 memset(OrientationPtr, 0, 4);
                 // Can't be bothered to write  generic Put32 if I only use it once.
-                if (MotorolaOrder){
+                if (MotorolaOrder) {
                     ((uchar *)OrientationPtr[a])[3] = 1;
-                }else{
+                } else {
                     ((uchar *)OrientationPtr[a])[0] = 1;
                 }
                 break;
@@ -1339,11 +1339,11 @@ int RemoveThumbnail(unsigned char * ExifSection)
 {
     if (!DirWithThumbnailPtrs ||
         CameraHALImageInfo.ThumbnailOffset == 0 ||
-        CameraHALImageInfo.ThumbnailSize == 0){
+        CameraHALImageInfo.ThumbnailSize == 0) {
         // No thumbnail, or already deleted it.
         return 0;
     }
-    if (CameraHALImageInfo.ThumbnailAtEnd == FALSE){
+    if (CameraHALImageInfo.ThumbnailAtEnd == FALSE) {
         ErrNonfatal("Thumbnail is not at end of header, can't chop it off", 0, 0);
         return 0;
     }
@@ -1353,14 +1353,14 @@ int RemoveThumbnail(unsigned char * ExifSection)
         int NumDirEntries;
         NumDirEntries = Get16u(DirWithThumbnailPtrs);
 
-        for (de=0;de<NumDirEntries;de++){
+        for (de=0;de<NumDirEntries;de++) {
             int Tag;
             unsigned char * DirEntry;
             DirEntry = DIR_ENTRY_ADDR(DirWithThumbnailPtrs, de);
             Tag = Get16u(DirEntry);
-            if (Tag == TAG_THUMBNAIL_LENGTH){
+            if (Tag == TAG_THUMBNAIL_LENGTH) {
                 // Set length to zero.
-                if (Get16u(DirEntry+2) != FMT_ULONG){
+                if (Get16u(DirEntry+2) != FMT_ULONG) {
                     // non standard format encoding.  Can't do it.
                     ErrNonfatal("Can't remove thumbnail", 0, 0);
                     return 0;
@@ -1393,7 +1393,7 @@ int Exif2tm(struct tm * timeptr, char * ExifTime)
             &timeptr->tm_hour, &timeptr->tm_min, &timeptr->tm_sec);
 
 
-    if (a == 6){
+    if (a == 6) {
         timeptr->tm_isdst = -1;
         timeptr->tm_mon -= 1;      // Adjust for unix zero-based months
         timeptr->tm_year -= 1900;  // Adjust for year starting at 1900
@@ -1410,7 +1410,7 @@ int Exif2tm(struct tm * timeptr, char * ExifTime)
 //--------------------------------------------------------------------------
 void ShowImageInfo(int ShowFileInfo)
 {
-    if (ShowFileInfo){
+    if (ShowFileInfo) {
         printf("File name    : %s\n",CameraHALImageInfo.FileName);
         printf("File size    : %d bytes\n",CameraHALImageInfo.FileSize);
 
@@ -1421,50 +1421,50 @@ void ShowImageInfo(int ShowFileInfo)
         }
     }
 
-    if (CameraHALImageInfo.CameraMake[0]){
+    if (CameraHALImageInfo.CameraMake[0]) {
         printf("Camera make  : %s\n",CameraHALImageInfo.CameraMake);
         printf("Camera model : %s\n",CameraHALImageInfo.CameraModel);
     }
-    if (CameraHALImageInfo.DateTime[0]){
+    if (CameraHALImageInfo.DateTime[0]) {
         printf("Date/Time    : %s\n",CameraHALImageInfo.DateTime);
     }
     printf("Resolution   : %d x %d\n",CameraHALImageInfo.Width, CameraHALImageInfo.Height);
 
-    if (CameraHALImageInfo.Orientation > 1){
+    if (CameraHALImageInfo.Orientation > 1) {
         // Only print orientation if one was supplied, and if its not 1 (normal orientation)
         printf("Orientation  : %s\n", OrientTab[CameraHALImageInfo.Orientation]);
     }
 
-    if (CameraHALImageInfo.IsColor == 0){
+    if (CameraHALImageInfo.IsColor == 0) {
         printf("Color/bw     : Black and white\n");
     }
 
-    if (CameraHALImageInfo.FlashUsed >= 0){
-        if (CameraHALImageInfo.FlashUsed & 1){
+    if (CameraHALImageInfo.FlashUsed >= 0) {
+        if (CameraHALImageInfo.FlashUsed & 1) {
             printf("Flash used   : Yes");
-            switch (CameraHALImageInfo.FlashUsed){
-	            case 0x5: printf(" (Strobe light not detected)"); break;
-	            case 0x7: printf(" (Strobe light detected) "); break;
-	            case 0x9: printf(" (manual)"); break;
-	            case 0xd: printf(" (manual, return light not detected)"); break;
-	            case 0xf: printf(" (manual, return light  detected)"); break;
-	            case 0x19:printf(" (auto)"); break;
-	            case 0x1d:printf(" (auto, return light not detected)"); break;
-	            case 0x1f:printf(" (auto, return light detected)"); break;
-	            case 0x41:printf(" (red eye reduction mode)"); break;
-	            case 0x45:printf(" (red eye reduction mode return light not detected)"); break;
-	            case 0x47:printf(" (red eye reduction mode return light  detected)"); break;
-	            case 0x49:printf(" (manual, red eye reduction mode)"); break;
-	            case 0x4d:printf(" (manual, red eye reduction mode, return light not detected)"); break;
-	            case 0x4f:printf(" (red eye reduction mode, return light detected)"); break;
-	            case 0x59:printf(" (auto, red eye reduction mode)"); break;
-	            case 0x5d:printf(" (auto, red eye reduction mode, return light not detected)"); break;
-	            case 0x5f:printf(" (auto, red eye reduction mode, return light detected)"); break;
+            switch (CameraHALImageInfo.FlashUsed) {
+                    case 0x5: printf(" (Strobe light not detected)"); break;
+                    case 0x7: printf(" (Strobe light detected) "); break;
+                    case 0x9: printf(" (manual)"); break;
+                    case 0xd: printf(" (manual, return light not detected)"); break;
+                    case 0xf: printf(" (manual, return light  detected)"); break;
+                    case 0x19:printf(" (auto)"); break;
+                    case 0x1d:printf(" (auto, return light not detected)"); break;
+                    case 0x1f:printf(" (auto, return light detected)"); break;
+                    case 0x41:printf(" (red eye reduction mode)"); break;
+                    case 0x45:printf(" (red eye reduction mode return light not detected)"); break;
+                    case 0x47:printf(" (red eye reduction mode return light  detected)"); break;
+                    case 0x49:printf(" (manual, red eye reduction mode)"); break;
+                    case 0x4d:printf(" (manual, red eye reduction mode, return light not detected)"); break;
+                    case 0x4f:printf(" (red eye reduction mode, return light detected)"); break;
+                    case 0x59:printf(" (auto, red eye reduction mode)"); break;
+                    case 0x5d:printf(" (auto, red eye reduction mode, return light not detected)"); break;
+                    case 0x5f:printf(" (auto, red eye reduction mode, return light detected)"); break;
             }
-        }else{
+        } else {
             printf("Flash used   : No");
-            switch (CameraHALImageInfo.FlashUsed){
-	            case 0x18:printf(" (auto)"); break;
+            switch (CameraHALImageInfo.FlashUsed) {
+                    case 0x18:printf(" (auto)"); break;
             }
         }
         printf("\n");
@@ -1473,48 +1473,48 @@ void ShowImageInfo(int ShowFileInfo)
 
     if (CameraHALImageInfo.FocalLength.num != 0 && CameraHALImageInfo.FocalLength.denom != 0) {
         printf("Focal length : %4.1fmm",(double)CameraHALImageInfo.FocalLength.num / CameraHALImageInfo.FocalLength.denom);
-        if (CameraHALImageInfo.FocalLength35mmEquiv){
+        if (CameraHALImageInfo.FocalLength35mmEquiv) {
             printf("  (35mm equivalent: %dmm)", CameraHALImageInfo.FocalLength35mmEquiv);
         }
         printf("\n");
     }
 
-    if (CameraHALImageInfo.DigitalZoomRatio > 1){
+    if (CameraHALImageInfo.DigitalZoomRatio > 1) {
         // Digital zoom used.  Shame on you!
         printf("Digital Zoom : %1.3fx\n", (double)CameraHALImageInfo.DigitalZoomRatio);
     }
 
-    if (CameraHALImageInfo.CCDWidth){
+    if (CameraHALImageInfo.CCDWidth) {
         printf("CCD width    : %4.2fmm\n",(double)CameraHALImageInfo.CCDWidth);
     }
 
-    if (CameraHALImageInfo.ExposureTime){
-        if (CameraHALImageInfo.ExposureTime < 0.010){
+    if (CameraHALImageInfo.ExposureTime) {
+        if (CameraHALImageInfo.ExposureTime < 0.010) {
             printf("Exposure time: %6.4f s ",(double)CameraHALImageInfo.ExposureTime);
-        }else{
+        } else {
             printf("Exposure time: %5.3f s ",(double)CameraHALImageInfo.ExposureTime);
         }
-        if (CameraHALImageInfo.ExposureTime <= 0.5){
+        if (CameraHALImageInfo.ExposureTime <= 0.5) {
             printf(" (1/%d)",(int)(0.5 + 1/CameraHALImageInfo.ExposureTime));
         }
         printf("\n");
     }
-    if (CameraHALImageInfo.ApertureFNumber){
+    if (CameraHALImageInfo.ApertureFNumber) {
         printf("Aperture     : f/%3.1f\n",(double)CameraHALImageInfo.ApertureFNumber);
     }
-    if (CameraHALImageInfo.Distance){
-        if (CameraHALImageInfo.Distance < 0){
+    if (CameraHALImageInfo.Distance) {
+        if (CameraHALImageInfo.Distance < 0) {
             printf("Focus dist.  : Infinite\n");
-        }else{
+        } else {
             printf("Focus dist.  : %4.2fm\n",(double)CameraHALImageInfo.Distance);
         }
     }
 
-    if (CameraHALImageInfo.ISOequivalent){
+    if (CameraHALImageInfo.ISOequivalent) {
         printf("ISO equiv.   : %2d\n",(int)CameraHALImageInfo.ISOequivalent);
     }
 
-    if (CameraHALImageInfo.ExposureBias){
+    if (CameraHALImageInfo.ExposureBias) {
         // If exposure bias was specified, but set to zero, presumably its no bias at all,
         // so only show it if its nonzero.
         printf("Exposure bias: %4.2f\n",(double)CameraHALImageInfo.ExposureBias);
@@ -1554,7 +1554,7 @@ void ShowImageInfo(int ShowFileInfo)
             // don't bother showing it - it doesn't add any useful information.
     }
 
-    if (CameraHALImageInfo.MeteringMode){ // 05-jan-2001 vcs
+    if (CameraHALImageInfo.MeteringMode) { // 05-jan-2001 vcs
         switch(CameraHALImageInfo.MeteringMode) {
         case 2:
             printf("Metering Mode: center weight\n");
@@ -1568,7 +1568,7 @@ void ShowImageInfo(int ShowFileInfo)
         }
     }
 
-    if (CameraHALImageInfo.ExposureProgram){ // 05-jan-2001 vcs
+    if (CameraHALImageInfo.ExposureProgram) { // 05-jan-2001 vcs
         switch(CameraHALImageInfo.ExposureProgram) {
         case 1:
             printf("Exposure     : Manual\n");
@@ -1598,7 +1598,7 @@ void ShowImageInfo(int ShowFileInfo)
             break;
         }
     }
-    switch(CameraHALImageInfo.ExposureMode){
+    switch(CameraHALImageInfo.ExposureMode) {
         case 0: // Automatic (not worth cluttering up output for)
             break;
         case 1: printf("Exposure Mode: Manual\n");
@@ -1625,54 +1625,54 @@ void ShowImageInfo(int ShowFileInfo)
 
 
 
-    if (CameraHALImageInfo.Process != M_SOF0){
+    if (CameraHALImageInfo.Process != M_SOF0) {
         // don't show it if its the plain old boring 'baseline' process, but do
         // show it if its something else, like 'progressive' (used on web sometimes)
         int a;
-        for (a=0;;a++){
-            if (a >= (int)PROCESS_TABLE_SIZE){
+        for (a=0;;a++) {
+            if (a >= (int)PROCESS_TABLE_SIZE) {
                 // ran off the end of the table.
                 printf("Jpeg process : Unknown\n");
                 break;
             }
-            if (ProcessTable[a].Tag == CameraHALImageInfo.Process){
+            if (ProcessTable[a].Tag == CameraHALImageInfo.Process) {
                 printf("Jpeg process : %s\n",ProcessTable[a].Desc);
                 break;
             }
         }
     }
 
-    if (CameraHALImageInfo.GpsInfoPresent){
+    if (CameraHALImageInfo.GpsInfoPresent) {
         printf("GPS Latitude : %s\n",CameraHALImageInfo.GpsLat);
         printf("GPS Longitude: %s\n",CameraHALImageInfo.GpsLong);
         if (CameraHALImageInfo.GpsAlt[0]) printf("GPS Altitude : %s\n",CameraHALImageInfo.GpsAlt);
     }
 
     // Print the comment. Print 'Comment:' for each new line of comment.
-    if (CameraHALImageInfo.Comments[0]){
+    if (CameraHALImageInfo.Comments[0]) {
         int a,c;
         printf("Comment      : ");
-        if (!CameraHALImageInfo.CommentWidchars){
-            for (a=0;a<MAX_COMMENT_SIZE;a++){
+        if (!CameraHALImageInfo.CommentWidchars) {
+            for (a=0;a<MAX_COMMENT_SIZE;a++) {
                 c = CameraHALImageInfo.Comments[a];
                 if (c == '\0') break;
-                if (c == '\n'){
+                if (c == '\n') {
                     // Do not start a new line if the string ends with a carriage return.
-                    if (CameraHALImageInfo.Comments[a+1] != '\0'){
+                    if (CameraHALImageInfo.Comments[a+1] != '\0') {
                         printf("\nComment      : ");
-                    }else{
+                    } else {
                         printf("\n");
                     }
-                }else{
+                } else {
                     putchar(c);
                 }
             }
             printf("\n");
-        }else{
+        } else {
             printf("%.*ls\n", CameraHALImageInfo.CommentWidchars, (wchar_t *)CameraHALImageInfo.Comments);
         }
     }
-    if (CameraHALImageInfo.ThumbnailOffset){
+    if (CameraHALImageInfo.ThumbnailOffset) {
         printf("Map: %05d-%05d: Thumbnail\n",CameraHALImageInfo.ThumbnailOffset, CameraHALImageInfo.ThumbnailOffset+CameraHALImageInfo.ThumbnailSize);
     } else {
         printf("NO thumbnail");
@@ -1689,27 +1689,27 @@ void ShowConciseImageInfo(void)
 
     printf(" %dx%d",CameraHALImageInfo.Width, CameraHALImageInfo.Height);
 
-    if (CameraHALImageInfo.ExposureTime){
-        if (CameraHALImageInfo.ExposureTime <= 0.5){
+    if (CameraHALImageInfo.ExposureTime) {
+        if (CameraHALImageInfo.ExposureTime <= 0.5) {
             printf(" (1/%d)",(int)(0.5 + 1/CameraHALImageInfo.ExposureTime));
-        }else{
+        } else {
             printf(" (%1.1f)",CameraHALImageInfo.ExposureTime);
         }
     }
 
-    if (CameraHALImageInfo.ApertureFNumber){
+    if (CameraHALImageInfo.ApertureFNumber) {
         printf(" f/%3.1f",(double)CameraHALImageInfo.ApertureFNumber);
     }
 
-    if (CameraHALImageInfo.FocalLength35mmEquiv){
+    if (CameraHALImageInfo.FocalLength35mmEquiv) {
         printf(" f(35)=%dmm",CameraHALImageInfo.FocalLength35mmEquiv);
     }
 
-    if (CameraHALImageInfo.FlashUsed >= 0 && CameraHALImageInfo.FlashUsed & 1){
+    if (CameraHALImageInfo.FlashUsed >= 0 && CameraHALImageInfo.FlashUsed & 1) {
         printf(" (flash)");
     }
 
-    if (CameraHALImageInfo.IsColor == 0){
+    if (CameraHALImageInfo.IsColor == 0) {
         printf(" (bw)");
     }
 

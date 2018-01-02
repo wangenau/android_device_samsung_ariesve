@@ -566,7 +566,7 @@ static int camera_msg_type_enabled(struct camera_device *device, int32_t msg_typ
 
     ALOGI("%s+++: type %i device %p", __FUNCTION__, msg_type, device);
 
-    if(!device)
+    if (!device)
         return 0;
 
     dev = (priv_camera_device_t*) device;
@@ -998,7 +998,7 @@ static int camera_device_open(const hw_module_t *module, const char *name,
 
         num_cameras = camera_get_number_of_cameras();
 
-        if(cameraid > num_cameras) {
+        if (cameraid > num_cameras) {
             ALOGE("camera service provided cameraid out of bounds, "
                  "cameraid = %d, num supported = %d",
                  cameraid, num_cameras);

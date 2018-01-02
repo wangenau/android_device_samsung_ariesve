@@ -101,7 +101,7 @@ int OrientationSensor::enable(int32_t, int en) {
 
 bool OrientationSensor::hasPendingEvents() const {
     /* FIXME probably here should be returning mEnabled but instead
-	mHasPendingEvents. It does not work, so we cheat.*/
+        mHasPendingEvents. It does not work, so we cheat.*/
     //ALOGD("OrientationSensor::~hasPendingEvents %d", mHasPendingEvent ? 1 : 0 );
     return mHasPendingEvent;
 }
@@ -175,6 +175,6 @@ int OrientationSensor::readEvents(sensors_event_t* data, int count)
         mInputReader.next();
     }
 
-	//ALOGD("OrientationSensor::~readEvents() numEventReceived = %d", numEventReceived);
+        //ALOGD("OrientationSensor::~readEvents() numEventReceived = %d", numEventReceived);
     return numEventReceived++;
 }

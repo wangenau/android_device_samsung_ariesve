@@ -130,7 +130,7 @@ static void configure_governor()
     cm_power_set_interactive(NULL, 1);
 
     if (strncmp(governor, "interactive", 11) == 0) {
-    	get_max_freq();
+        get_max_freq();
         sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time", "40000");
         sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/io_is_busy", "1");
         sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load", "90");
