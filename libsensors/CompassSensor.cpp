@@ -44,7 +44,7 @@ CompassSensor::CompassSensor()
     memset(mPendingEvent.data, 0, sizeof(mPendingEvent.data));
 
     ALOGD("CompassSensor::CompassSensor() open data_fd");
-
+	
     if (data_fd) {
         strcpy(input_sysfs_path, "/sys/class/input/");
         strcat(input_sysfs_path, input_name);
@@ -97,7 +97,7 @@ int CompassSensor::enable(int32_t, int en) {
 
 bool CompassSensor::hasPendingEvents() const {
     /* FIXME probably here should be returning mEnabled but instead
-        mHasPendingEvents. It does not work, so we cheat.*/
+	mHasPendingEvents. It does not work, so we cheat.*/
     //ALOGD("CompassSensor::~hasPendingEvents %d", mHasPendingEvent ? 1 : 0 );
     return mHasPendingEvent;
 }
@@ -181,6 +181,6 @@ int CompassSensor::readEvents(sensors_event_t* data, int count)
         mInputReader.next();
     }
 
-        //ALOGD("CompassSensor::~readEvents() numEventReceived = %d", numEventReceived);
+	//ALOGD("CompassSensor::~readEvents() numEventReceived = %d", numEventReceived);
     return numEventReceived++;
 }

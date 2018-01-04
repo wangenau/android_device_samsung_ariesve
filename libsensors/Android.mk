@@ -30,15 +30,15 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
 
-LOCAL_SRC_FILES :=                              \
-                        sensors.cpp             \
-                        SensorBase.cpp          \
-                        LightSensor.cpp         \
-                        ProximitySensor.cpp     \
-                        Bma222Sensor.cpp        \
-                        CompassSensor.cpp       \
-                        OrientationSensor.cpp   \
-                        InputEventReader.cpp
+LOCAL_SRC_FILES := 				\
+			sensors.cpp 		\
+			SensorBase.cpp		\
+			LightSensor.cpp		\
+			ProximitySensor.cpp	\
+			Bma222Sensor.cpp	\
+			CompassSensor.cpp	\
+			OrientationSensor.cpp	\
+			InputEventReader.cpp
 
 LOCAL_SHARED_LIBRARIES := liblog libcutils libdl
 LOCAL_PRELINK_MODULE := false

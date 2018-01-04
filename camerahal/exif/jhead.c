@@ -146,7 +146,7 @@ static int FileEditComment(char * TempFileName, char * Comment, int CommentSize)
     char QuotedPath[PATH_MAX+10];
 
     file = fopen(TempFileName, "w");
-    if (file == NULL) {
+    if (file == NULL){
         fprintf(stderr, "Can't create file '%s'\n",TempFileName);
         ErrFatal("could not create temporary file");
     }
@@ -159,7 +159,7 @@ static int FileEditComment(char * TempFileName, char * Comment, int CommentSize)
     {
         char * Editor;
         Editor = getenv("EDITOR");
-        if (Editor == NULL) {
+        if (Editor == NULL){
 #ifdef _WIN32
             Editor = "notepad";
 #else
@@ -172,13 +172,13 @@ static int FileEditComment(char * TempFileName, char * Comment, int CommentSize)
         a = system(QuotedPath);
     }
 
-    if (a != 0) {
+    if (a != 0){
         perror("Editor failed to launch");
         exit(-1);
     }
 
     file = fopen(TempFileName, "r");
-    if (file == NULL) {
+    if (file == NULL){
         ErrFatal("could not open temp file for read");
     }
 
@@ -215,37 +215,37 @@ static int ModifyDescriptComment(char * OutComment, char * SrcComment)
     OutComment[0] = 0;
 
 
-    for (i=0;;i++) {
-        if (SrcComment[i] == '\r' || SrcComment[i] == '\n' || SrcComment[i] == 0 || Len >= 199) {
+    for (i=0;;i++){
+        if (SrcComment[i] == '\r' || SrcComment[i] == '\n' || SrcComment[i] == 0 || Len >= 199){
             // Process the line.
-            if (Len > 0) {
+            if (Len > 0){
                 Line[Len] = 0;
                 //printf("Line: '%s'\n",Line);
-                for (a=0;;a++) {
+                for (a=0;;a++){
                     l = strlen(KnownTags[a]);
-                    if (!l) {
+                    if (!l){
                         // Unknown tag.  Discard it.
                         printf("Error: Unknown tag '%s'\n", Line); // Deletes the tag.
                         Modified = TRUE;
                         break;
                     }
-                    if (memcmp(Line, KnownTags[a], l) == 0) {
-                        if (Line[l] == ' ' || Line[l] == '=' || Line[l] == 0) {
+                    if (memcmp(Line, KnownTags[a], l) == 0){
+                        if (Line[l] == ' ' || Line[l] == '=' || Line[l] == 0){
                             // Its a good tag.
                             if (Line[l] == ' ') Line[l] = '='; // Use equal sign for clarity.
                             if (a == 2) break; // Delete 'orig_path' tag.
                             if (a == 3) HasScandate = TRUE;
-                            if (RemComment) {
-                                if (strlen(RemComment) == l) {
-                                    if (!memcmp(Line, RemComment, l)) {
+                            if (RemComment){
+                                if (strlen(RemComment) == l){
+                                    if (!memcmp(Line, RemComment, l)){
                                         Modified = TRUE;
                                         break;
                                     }
                                 }
                             }
-                            if (AddComment) {
+                            if (AddComment){
                                 // Overwrite old comment of same tag with new one.
-                                if (!memcmp(Line, AddComment, l+1)) {
+                                if (!memcmp(Line, AddComment, l+1)){
                                     TagExists = TRUE;
                                     strncpy(Line, AddComment, sizeof(Line));
                                     Modified = TRUE;
@@ -260,18 +260,18 @@ static int ModifyDescriptComment(char * OutComment, char * SrcComment)
             }
             Line[Len = 0] = 0;
             if (SrcComment[i] == 0) break;
-        } else {
+        }else{
             Line[Len++] = SrcComment[i];
         }
     }
 
-    if (AddComment && TagExists == FALSE) {
+    if (AddComment && TagExists == FALSE){
         strncat(OutComment, AddComment, MAX_COMMENT_SIZE-5-strlen(OutComment));
         strcat(OutComment, "\n");
         Modified = TRUE;
     }
 
-    if (!HasScandate && !CameraHALImageInfo.DateTime[0]) {
+    if (!HasScandate && !CameraHALImageInfo.DateTime[0]){
         // Scan date is not in the file yet, and it doesn't have one built in.  Add it.
         char Temp[30];
         sprintf(Temp, "scan_date=%s", ctime(&CameraHALImageInfo.FileDateTime));
@@ -290,7 +290,7 @@ static int AutoResizeCmdStuff(void)
 
     ApplyCommand = CommandString;
 
-    if (CameraHALImageInfo.Height <= 1280 && CameraHALImageInfo.Width <= 1280) {
+    if (CameraHALImageInfo.Height <= 1280 && CameraHALImageInfo.Width <= 1280){
         printf("not resizing %dx%x '%s'\n",CameraHALImageInfo.Height, CameraHALImageInfo.Width, CameraHALImageInfo.FileName);
         return FALSE;
     }
@@ -365,22 +365,22 @@ static void DoCommand(const char * FileName, int ShowIt)
     memcpy(TempName, FileName, a);
     strcpy(TempName+a, "XXXXXX");
     mktemp(TempName);
-    if (!TempName[0]) {
+    if(!TempName[0]) {
         ErrFatal("Cannot find available temporary file name");
     }
 
 
 
     // Build the exec string.  &i and &o in the exec string get replaced by input and output files.
-    for (a=0;;a++) {
-        if (ApplyCommand[a] == '&') {
-            if (ApplyCommand[a+1] == 'i') {
+    for (a=0;;a++){
+        if (ApplyCommand[a] == '&'){
+            if (ApplyCommand[a+1] == 'i'){
                 // Input file.
                 e += shellescape(ExecString+e, FileName);
                 a += 1;
                 continue;
             }
-            if (ApplyCommand[a+1] == 'o') {
+            if (ApplyCommand[a+1] == 'o'){
                 // Needs an output file distinct from the input file.
                 e += shellescape(ExecString+e, TempName);
                 a += 1;
@@ -397,19 +397,19 @@ static void DoCommand(const char * FileName, int ShowIt)
     errno = 0;
     a = system(ExecString);
 
-    if (a || errno) {
+    if (a || errno){
         // A command can however fail without errno getting set or system returning an error.
         if (errno) perror("system");
         ErrFatal("Problem executing specified command");
     }
 
-    if (TempUsed) {
+    if (TempUsed){
         // Don't delete original file until we know a new one was created by the command.
         struct stat dummy;
-        if (stat(TempName, &dummy) == 0) {
+        if (stat(TempName, &dummy) == 0){
             unlink(FileName);
             rename(TempName, FileName);
-        } else {
+        }else{
             ErrFatal("specified command did not produce expected output file");
         }
     }
@@ -423,28 +423,28 @@ static int CheckFileSkip(void)
     // I sometimes add code here to only process images based on certain
     // criteria - for example, only to convert non progressive Jpegs to progressives, etc..
 
-    if (FilterModel) {
+    if (FilterModel){
         // Filtering processing by camera model.
         // This feature is useful when pictures from multiple cameras are colated, 
         // the its found that one of the cameras has the time set incorrectly.
-        if (strstr(CameraHALImageInfo.CameraModel, FilterModel) == NULL) {
+        if (strstr(CameraHALImageInfo.CameraModel, FilterModel) == NULL){
             // Skip.
             return TRUE;
         }
     }
 
-    if (ExifOnly) {
+    if (ExifOnly){
         // Filtering by EXIF only.  Skip all files that have no Exif.
-        if (FindSection(M_EXIF) == NULL) {
+        if (FindSection(M_EXIF) == NULL){
             return TRUE;
         }
     }
 
-    if (PortraitOnly == 1) {
+    if (PortraitOnly == 1){
         if (CameraHALImageInfo.Width > CameraHALImageInfo.Height) return TRUE;
     }
 
-    if (PortraitOnly == -1) {
+    if (PortraitOnly == -1){
         if (CameraHALImageInfo.Width < CameraHALImageInfo.Height) return TRUE;
     }
 
@@ -462,12 +462,12 @@ static void RelativeName(char * OutFileName, const char * NamePattern, const cha
     // multiple files at a time.
     char * Subst;
     Subst = strstr(NamePattern, "&i");
-    if (Subst) {
+    if (Subst){
         strncpy(OutFileName, NamePattern, Subst-NamePattern);
         OutFileName[Subst-NamePattern] = 0;
         strncat(OutFileName, OrigName, PATH_MAX);
         strncat(OutFileName, Subst+2, PATH_MAX);
-    } else {
+    }else{
         strncpy(OutFileName, NamePattern, PATH_MAX); 
     }
 }
@@ -487,7 +487,7 @@ void RenameAssociated(const char * FileName, char * NewBaseName)
     struct _finddata_t finddata;
     long find_handle;
 
-    for(ExtPos = strlen(FileName);FileName[ExtPos-1] != '.';) {
+    for(ExtPos = strlen(FileName);FileName[ExtPos-1] != '.';){
         if (--ExtPos == 0) return; // No extension!
     }
 
@@ -495,13 +495,13 @@ void RenameAssociated(const char * FileName, char * NewBaseName)
     FilePattern[ExtPos] = '*';
     FilePattern[ExtPos+1] = '\0';
 
-    for(PathLen = strlen(FileName);FileName[PathLen-1] != SLASH;) {
+    for(PathLen = strlen(FileName);FileName[PathLen-1] != SLASH;){
         if (--PathLen == 0) break;
     }
 
     find_handle = _findfirst(FilePattern, &finddata);
 
-    for (;;) {
+    for (;;){
         if (find_handle == -1) break;
 
         // Eliminate the obvious patterns.
@@ -512,13 +512,13 @@ void RenameAssociated(const char * FileName, char * NewBaseName)
         strncpy(FilePattern+PathLen, finddata.name, PATH_MAX-PathLen); // full name with path
 
         strcpy(NewName, NewBaseName);
-        for(a = strlen(finddata.name);finddata.name[a] != '.';) {
+        for(a = strlen(finddata.name);finddata.name[a] != '.';){
             if (--a == 0) goto next_file;
         }
         strncat(NewName, finddata.name+a, _MAX_PATH-strlen(NewName)); // add extension to new name
 
-        if (rename(FilePattern, NewName) == 0) {
-            if (!Quiet) {
+        if (rename(FilePattern, NewName) == 0){
+            if (!Quiet){
                 printf("%s --> %s\n",FilePattern, NewName);
             }
         }
@@ -546,8 +546,8 @@ static void DoFileRenaming(const char * FileName)
     char NewName[PATH_MAX+2];
 
     ExtensionPart = strlen(FileName);
-    for (a=0;FileName[a];a++) {
-        if (FileName[a] == SLASH) {
+    for (a=0;FileName[a];a++){
+        if (FileName[a] == SLASH){
             // Don't count path component.
             NumAlpha = 0;
             NumDigit = 0;
@@ -560,14 +560,14 @@ static void DoFileRenaming(const char * FileName)
         if (isdigit(FileName[a])) NumDigit += 1;
     }
 
-    if (RenameToDate <= 1) {
+    if (RenameToDate <= 1){
         // If naming isn't forced, ensure name is mostly digits, or leave it alone.
-        if (NumAlpha > 8 || NumDigit < 4) {
+        if (NumAlpha > 8 || NumDigit < 4){
             return;
         }
     }
 
-    if (!Exif2tm(&tm, CameraHALImageInfo.DateTime)) {
+    if (!Exif2tm(&tm, CameraHALImageInfo.DateTime)){
         printf("File '%s' contains no exif date stamp.  Using file date\n",FileName);
         // Use file date/time instead.
         tm = *localtime(&CameraHALImageInfo.FileDateTime);
@@ -576,7 +576,7 @@ static void DoFileRenaming(const char * FileName)
 
     strncpy(NewBaseName, FileName, PATH_MAX); // Get path component of name.
 
-    if (strftime_args) {
+    if (strftime_args){
         // Complicated scheme for flexibility.  Just pass the args to strftime.
         time_t UnixTime;
 
@@ -586,7 +586,7 @@ static void DoFileRenaming(const char * FileName)
 
         // Call mktime to get weekday and such filled in.
         UnixTime = mktime(&tm);
-        if ((int)UnixTime == -1) {
+        if ((int)UnixTime == -1){
             printf("Could not convert %s to unix time",CameraHALImageInfo.DateTime);
             return;
         }
@@ -594,7 +594,7 @@ static void DoFileRenaming(const char * FileName)
         // Substitute "%f" for the original name (minus path & extension)
         pattern[PATH_MAX-1]=0;
         strncpy(pattern, strftime_args, PATH_MAX-1);
-        while ((s = strstr(pattern, "%f")) && strlen(pattern) + n < PATH_MAX-1) {
+        while ((s = strstr(pattern, "%f")) && strlen(pattern) + n < PATH_MAX-1){
             memmove(s + n, s + 2, strlen(s+2) + 1);
             memmove(s, FileName + PrefixPart, n);
         }
@@ -603,11 +603,11 @@ static void DoFileRenaming(const char * FileName)
             // Sequential number renaming part.  
             // '%i' type pattern becomes sequence number.
             int ppos = -1;
-            for (a=0;pattern[a];a++) {
-                if (pattern[a] == '%') {
+            for (a=0;pattern[a];a++){
+                if (pattern[a] == '%'){
                      ppos = a;
-                } else if (pattern[a] == 'i') {
-                    if (ppos >= 0 && a<ppos+4) {
+                }else if (pattern[a] == 'i'){
+                    if (ppos >= 0 && a<ppos+4){
                         // Replace this part with a number.
                         char pat[8], num[16];
                         int l,nl;
@@ -622,13 +622,13 @@ static void DoFileRenaming(const char * FileName)
                         memcpy(pattern+ppos, num, nl);
                         break;
                     }
-                } else if (!isdigit(pattern[a])) {
+                }else if (!isdigit(pattern[a])){
                     ppos = -1;
                 }
             }
         }
         strftime(NewName, PATH_MAX, pattern, &tm);
-    } else {
+    }else{
         // My favourite scheme.
         sprintf(NewName, "%02d%02d-%02d%02d%02d",
              tm.tm_mon+1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
@@ -638,24 +638,24 @@ static void DoFileRenaming(const char * FileName)
     CatPath(NewBaseName, NewName);
 
     AddLetter = isdigit(NewBaseName[strlen(NewBaseName)-1]);
-    for (a=0;;a++) {
+    for (a=0;;a++){
         char NewName[PATH_MAX+10];
         char NameExtra[3];
         struct stat dummy;
 
-        if (a) {
+        if (a){
             // Generate a suffix for the file name if previous choice of names is taken.
             // depending on wether the name ends in a letter or digit, pick the opposite to separate
             // it.  This to avoid using a separator character - this because any good separator
             // is before the '.' in ascii, and so sorting the names would put the later name before
             // the name without suffix, causing the pictures to more likely be out of order.
-            if (AddLetter) {
+            if (AddLetter){
                 NameExtra[0] = (char)('a'-1+a); // Try a,b,c,d... for suffix if it ends in a number.
-            } else {
+            }else{
                 NameExtra[0] = (char)('0'-1+a); // Try 0,1,2,3... for suffix if it ends in a latter.
             }
             NameExtra[1] = 0;
-        } else {
+        }else{
             NameExtra[0] = 0;
         }
 
@@ -663,29 +663,29 @@ static void DoFileRenaming(const char * FileName)
 
         if (!strcmp(FileName, NewName)) break; // Skip if its already this name.
 
-        if (!EnsurePathExists(NewBaseName)) {
+        if (!EnsurePathExists(NewBaseName)){
             break;
         }
 
 
-        if (stat(NewName, &dummy)) {
+        if (stat(NewName, &dummy)){
             // This name does not pre-exist.
-            if (rename(FileName, NewName) == 0) {
+            if (rename(FileName, NewName) == 0){
                 printf("%s --> %s\n",FileName, NewName);
 #ifdef _WIN32
-                if (RenameAssociatedFiles) {
+                if (RenameAssociatedFiles){
                     sprintf(NewName, "%s%s", NewBaseName, NameExtra);
                     RenameAssociated(FileName, NewName);
                 }
 #endif
-            } else {
+            }else{
                 printf("Error: Couldn't rename '%s' to '%s'\n",FileName, NewName);
             }
             break;
 
         }
 
-        if (a > 25 || (!AddLetter && a > 9)) {
+        if (a > 25 || (!AddLetter && a > 9)){
             printf("Possible new names for for '%s' already exist\n",FileName);
             break;
         }
@@ -697,13 +697,13 @@ static void DoFileRenaming(const char * FileName)
 //--------------------------------------------------------------------------
 static int DoAutoRotate(const char * FileName)
 {
-    if (CameraHALImageInfo.Orientation >= 2 && CameraHALImageInfo.Orientation <= 8) {
+    if (CameraHALImageInfo.Orientation >= 2 && CameraHALImageInfo.Orientation <= 8){
         const char * Argument;
         Argument = ClearOrientation();
 
-        if (!ZeroRotateTagOnly) {
+        if (!ZeroRotateTagOnly){
             char RotateCommand[PATH_MAX*2+50];
-            if (Argument == NULL) {
+            if (Argument == NULL){
                 ErrFatal("Orientation screwup");
             }
 
@@ -715,7 +715,7 @@ static int DoAutoRotate(const char * FileName)
             // Now rotate the thumbnail, if there is one.
             if (CameraHALImageInfo.ThumbnailOffset && 
                 CameraHALImageInfo.ThumbnailSize && 
-                CameraHALImageInfo.ThumbnailAtEnd) {
+                CameraHALImageInfo.ThumbnailAtEnd){
                 // Must have a thumbnail that exists and is modifieable.
 
                 char ThumbTempName_in[PATH_MAX+5];
@@ -729,7 +729,7 @@ static int DoAutoRotate(const char * FileName)
                 sprintf(RotateCommand,"jpegtran -trim -%s -outfile \"%s\" \"%s\"",
                     Argument, ThumbTempName_out, ThumbTempName_in);
 
-                if (system(RotateCommand) == 0) {
+                if (system(RotateCommand) == 0){
                     // Put the thumbnail back in the header
                     ReplaceThumbnail(ThumbTempName_out);
                 }
@@ -749,7 +749,7 @@ static int DoAutoRotate(const char * FileName)
 static int RegenerateThumbnail(const char * FileName)
 {
     char ThumbnailGenCommand[PATH_MAX*2+50];
-    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailAtEnd == FALSE) {
+    if (CameraHALImageInfo.ThumbnailOffset == 0 || CameraHALImageInfo.ThumbnailAtEnd == FALSE){
         // There is no thumbnail, or the thumbnail is not at the end.
         return FALSE;
     }
@@ -757,10 +757,10 @@ static int RegenerateThumbnail(const char * FileName)
     sprintf(ThumbnailGenCommand, "mogrify -thumbnail %dx%d \"%s\"", 
         RegenThumbnail, RegenThumbnail, FileName);
 
-    if (system(ThumbnailGenCommand) == 0) {
+    if (system(ThumbnailGenCommand) == 0){
         // Put the thumbnail back in the header
         return ReplaceThumbnail(FileName);
-    } else {
+    }else{
         ErrFatal("Unable to run 'mogrify' command");
         return FALSE;
     }
@@ -774,7 +774,7 @@ void ProcessFile(const char * FileName)
     int Modified = FALSE;
     ReadMode_t ReadMode;
 
-    if (strlen(FileName) >= PATH_MAX-1) {
+    if (strlen(FileName) >= PATH_MAX-1){
         // Protect against buffer overruns in strcpy / strcat's on filename
         ErrFatal("filename too long");
     }
@@ -794,16 +794,16 @@ void ProcessFile(const char * FileName)
     // Store file date/time.
     {
         struct stat st;
-        if (stat(FileName, &st) >= 0) {
+        if (stat(FileName, &st) >= 0){
             CameraHALImageInfo.FileDateTime = st.st_mtime;
             CameraHALImageInfo.FileSize = st.st_size;
-        } else {
+        }else{
             ErrFatal("No such file");
         }
     }
 
-    if (DoModify || RenameToDate || Exif2FileTime) {
-        if (access(FileName, 2 /*W_OK*/)) {
+    if (DoModify || RenameToDate || Exif2FileTime){
+        if (access(FileName, 2 /*W_OK*/)){
             printf("Skipping readonly file '%s'\n",FileName);
             return;
         }
@@ -812,16 +812,16 @@ void ProcessFile(const char * FileName)
     strncpy(CameraHALImageInfo.FileName, FileName, PATH_MAX);
 
 
-    if (ApplyCommand || AutoRotate) {
+    if (ApplyCommand || AutoRotate){
         // Applying a command is special - the headers from the file have to be
         // pre-read, then the command executed, and then the image part of the file read.
 
         if (!ReadJpegFile(FileName, READ_METADATA)) return;
 
         #ifdef MATTHIAS
-            if (AutoResize) {
+            if (AutoResize){
                 // Automatic resize computation - to customize for each run...
-                if (AutoResizeCmdStuff() == 0) {
+                if (AutoResizeCmdStuff() == 0){
                     DiscardData();
                     return;
                 }
@@ -829,22 +829,22 @@ void ProcessFile(const char * FileName)
         #endif // MATTHIAS
 
 
-        if (CheckFileSkip()) {
+        if (CheckFileSkip()){
             DiscardData();
             return;
         }
 
         DiscardAllButExif();
 
-        if (AutoRotate) {
-            if (DoAutoRotate(FileName)) {
+        if (AutoRotate){
+            if (DoAutoRotate(FileName)){
                 Modified = TRUE;
             }
-        } else {
+        }else{
             struct stat dummy;
             DoCommand(FileName, Quiet ? FALSE : TRUE);
 
-            if (stat(FileName, &dummy)) {
+            if (stat(FileName, &dummy)){
                 // The file is not there anymore. Perhaps the command
                 // was a delete or a move.  So we are all done.
                 return;
@@ -853,13 +853,13 @@ void ProcessFile(const char * FileName)
         }
         ReadMode = READ_IMAGE;   // Don't re-read exif section again on next read.
 
-    } else if (ExifXferScrFile) {
+    }else if (ExifXferScrFile){
         char RelativeExifName[PATH_MAX+1];
 
         // Make a relative name.
         RelativeName(RelativeExifName, ExifXferScrFile, FileName);
 
-        if (!ReadJpegFile(RelativeExifName, READ_METADATA)) return;
+        if(!ReadJpegFile(RelativeExifName, READ_METADATA)) return;
 
         DiscardAllButExif();    // Don't re-read exif section again on next read.
 
@@ -867,23 +867,23 @@ void ProcessFile(const char * FileName)
         ReadMode = READ_IMAGE;
     }
 
-    if (DoModify) {
+    if (DoModify){
         ReadMode |= READ_IMAGE;
     }
 
     if (!ReadJpegFile(FileName, ReadMode)) return;
 
-    if (CheckFileSkip()) {
+    if (CheckFileSkip()){
         DiscardData();
         return;
     }
 
     FileSequence += 1; // Count files processed.
 
-    if (ShowConcise) {
+    if (ShowConcise){
         ShowConciseImageInfo();
-    } else {
-        if (!(DoModify || DoReadAction) || ShowTags) {
+    }else{
+        if (!(DoModify || DoReadAction) || ShowTags){
             ShowImageInfo(ShowFileInfo);
 
             {
@@ -891,7 +891,7 @@ void ProcessFile(const char * FileName)
                 Section_t * IptcSection;
                 IptcSection = FindSection(M_IPTC);
             
-                if (IptcSection) {
+                if (IptcSection){
                     show_IPTC(IptcSection->Data, IptcSection->Size);
                 }
             }
@@ -899,39 +899,39 @@ void ProcessFile(const char * FileName)
         }
     }
 
-    if (ThumbSaveName) {
+    if (ThumbSaveName){
         char OutFileName[PATH_MAX+1];
         // Make a relative name.
         RelativeName(OutFileName, ThumbSaveName, FileName);
 
-        if (SaveThumbnail(OutFileName)) {
+        if (SaveThumbnail(OutFileName)){
             printf("Created: '%s'\n", OutFileName);
         }
     }
 
-    if (CreateExifSection) {
+    if (CreateExifSection){
         // Make a new minimal exif section
         create_EXIF(NULL, 0, 0, 0);
         Modified = TRUE;
     }
 
-    if (RegenThumbnail) {
-        if (RegenerateThumbnail(FileName)) {
+    if (RegenThumbnail){
+        if (RegenerateThumbnail(FileName)){
             Modified = TRUE;
         }
     }
 
-    if (ThumbInsertName) {
+    if (ThumbInsertName){
         char ThumbFileName[PATH_MAX+1];
         // Make a relative name.
         RelativeName(ThumbFileName, ThumbInsertName, FileName);
 
-        if (ReplaceThumbnail(ThumbFileName)) {
+        if (ReplaceThumbnail(ThumbFileName)){
             Modified = TRUE;
         }
-    } else if (TrimExif) {
+    }else if (TrimExif){
         // Deleting thumbnail is just replacing it with a null thumbnail.
-        if (ReplaceThumbnail(NULL)) {
+        if (ReplaceThumbnail(NULL)){
             Modified = TRUE;
         }
     }
@@ -940,7 +940,7 @@ void ProcessFile(const char * FileName)
 #ifdef MATTHIAS
         AddComment || RemComment ||
 #endif
-                   EditComment || CommentInsertfileName || CommentInsertLiteral) {
+                   EditComment || CommentInsertfileName || CommentInsertLiteral){
 
         Section_t * CommentSec;
         char Comment[MAX_COMMENT_SIZE+1];
@@ -948,7 +948,7 @@ void ProcessFile(const char * FileName)
 
         CommentSec = FindSection(M_COM);
 
-        if (CommentSec == NULL) {
+        if (CommentSec == NULL){
             unsigned char * DummyData;
 
             DummyData = (uchar *) malloc(3);
@@ -959,12 +959,12 @@ void ProcessFile(const char * FileName)
         }
 
         CommentSize = CommentSec->Size-2;
-        if (CommentSize > MAX_COMMENT_SIZE) {
+        if (CommentSize > MAX_COMMENT_SIZE){
             fprintf(stderr, "Truncating comment at %d chars\n",MAX_COMMENT_SIZE);
             CommentSize = MAX_COMMENT_SIZE;
         }
 
-        if (CommentInsertfileName) {
+        if (CommentInsertfileName){
             // Read a new comment section from file.
             char CommentFileName[PATH_MAX+1];
             FILE * CommentFile;
@@ -973,24 +973,24 @@ void ProcessFile(const char * FileName)
             RelativeName(CommentFileName, CommentInsertfileName, FileName);
 
             CommentFile = fopen(CommentFileName,"r");
-            if (CommentFile == NULL) {
+            if (CommentFile == NULL){
                 printf("Could not open '%s'\n",CommentFileName);
-            } else {
+            }else{
                 // Read it in.
                 // Replace the section.
                 CommentSize = fread(Comment, 1, 999, CommentFile);
                 fclose(CommentFile);
                 if (CommentSize < 0) CommentSize = 0;
             }
-        } else if (CommentInsertLiteral) {
+        }else if (CommentInsertLiteral){
             strncpy(Comment, CommentInsertLiteral, MAX_COMMENT_SIZE);
             CommentSize = strlen(Comment);
-        } else {
+        }else{
 #ifdef MATTHIAS
             char CommentZt[MAX_COMMENT_SIZE+1];
             memcpy(CommentZt, (char *)CommentSec->Data+2, CommentSize);
             CommentZt[CommentSize] = '\0';
-            if (ModifyDescriptComment(Comment, CommentZt)) {
+            if (ModifyDescriptComment(Comment, CommentZt)){
                 Modified = TRUE;
                 CommentSize = strlen(Comment);
             }
@@ -1007,7 +1007,7 @@ void ProcessFile(const char * FileName)
             }
         }
 
-        if (strcmp(Comment, (char *)CommentSec->Data+2)) {
+        if (strcmp(Comment, (char *)CommentSec->Data+2)){
             // Discard old comment section and put a new one in.
             int size;
             size = CommentSize+2;
@@ -1019,17 +1019,17 @@ void ProcessFile(const char * FileName)
             memcpy((CommentSec->Data)+2, Comment, size-2);
             Modified = TRUE;
         }
-        if (!Modified) {
+        if (!Modified){
             printf("Comment not modified\n");
         }
     }
 
 
-    if (CommentSavefileName) {
+    if (CommentSavefileName){
         Section_t * CommentSec;
         CommentSec = FindSection(M_COM);
 
-        if (CommentSec != NULL) {
+        if (CommentSec != NULL){
             char OutFileName[PATH_MAX+1];
             FILE * CommentFile;
 
@@ -1038,36 +1038,36 @@ void ProcessFile(const char * FileName)
 
             CommentFile = fopen(OutFileName,"w");
 
-            if (CommentFile) {
+            if (CommentFile){
                 fwrite((char *)CommentSec->Data+2, CommentSec->Size-2 ,1, CommentFile);
                 fclose(CommentFile);
-            } else {
+            }else{
                 ErrFatal("Could not write comment file");
             }
-        } else {
+        }else{
             printf("File '%s' contains no comment section\n",FileName);
         }
     }
 
-    if (ExifTimeAdjust || ExifTimeSet || DateSetChars || FileTimeToExif) {
-       if (CameraHALImageInfo.numDateTimeTags) {
+    if (ExifTimeAdjust || ExifTimeSet || DateSetChars || FileTimeToExif){
+       if (CameraHALImageInfo.numDateTimeTags){
             struct tm tm;
             time_t UnixTime;
             char TempBuf[50];
             int a;
             Section_t * ExifSection;
-            if (ExifTimeSet) {
+            if (ExifTimeSet){
                 // A time to set was specified.
                 UnixTime = ExifTimeSet;
-            } else {
-                if (FileTimeToExif) {
+            }else{
+                if (FileTimeToExif){
                     FileTimeAsString(CameraHALImageInfo.DateTime);
                 }
-                if (DateSetChars) {
+                if (DateSetChars){
                     memcpy(CameraHALImageInfo.DateTime, DateSet, DateSetChars);
                     a = 1970;
                     sscanf(DateSet, "%d", &a);
-                    if (a < 1970) {
+                    if (a < 1970){
                         strcpy(TempBuf, CameraHALImageInfo.DateTime);
                         goto skip_unixtime;
                     }
@@ -1099,29 +1099,29 @@ skip_unixtime:
             memcpy(CameraHALImageInfo.DateTime, TempBuf, 19);
 
             Modified = TRUE;
-        } else {
+        }else{
             printf("File '%s' contains no Exif timestamp to change\n", FileName);
         }
     }
 
-    if (DeleteComments) {
+    if (DeleteComments){
         if (RemoveSectionType(M_COM)) Modified = TRUE;
     }
-    if (DeleteExif) {
+    if (DeleteExif){
         if (RemoveSectionType(M_EXIF)) Modified = TRUE;
     }
-    if (DeleteIptc) {
+    if (DeleteIptc){
         if (RemoveSectionType(M_IPTC)) Modified = TRUE;
     }
-    if (DeleteXmp) {
+    if (DeleteXmp){
         if (RemoveSectionType(M_XMP)) Modified = TRUE;
     }
-    if (DeleteUnknown) {
+    if (DeleteUnknown){
         if (RemoveUnknownSections()) Modified = TRUE;
     }
 
 
-    if (Modified) {
+    if (Modified){
         char BackupName[PATH_MAX+5];
         struct stat buf;
 
@@ -1140,7 +1140,7 @@ skip_unixtime:
         if (WriteJpegFile(FileName)) {
     
             // Copy the access rights from original file
-            if (stat(BackupName, &buf) == 0) {
+            if (stat(BackupName, &buf) == 0){
                 // set Unix access rights and time to new file
                 struct utimbuf mtime;
                 chmod(FileName, buf.st_mode);
@@ -1160,9 +1160,9 @@ skip_unixtime:
     }
 
 
-    if (Exif2FileTime) {
+    if (Exif2FileTime){
         // Set the file date to the date from the exif header.
-        if (CameraHALImageInfo.numDateTimeTags) {
+        if (CameraHALImageInfo.numDateTimeTags){
             // Converte the file date to Unix time.
             struct tm tm;
             time_t UnixTime;
@@ -1170,19 +1170,19 @@ skip_unixtime:
             if (!Exif2tm(&tm, CameraHALImageInfo.DateTime)) goto badtime;
 
             UnixTime = mktime(&tm);
-            if ((int)UnixTime == -1) {
+            if ((int)UnixTime == -1){
                 goto badtime;
             }
 
             mtime.actime = UnixTime;
             mtime.modtime = UnixTime;
 
-            if (utime(FileName, &mtime) != 0) {
+            if (utime(FileName, &mtime) != 0){
                 printf("Error: Could not change time of file '%s'\n",FileName);
-            } else {
+            }else{
                 if (!Quiet) printf("%s\n",FileName);
             }
-        } else {
+        }else{
             printf("File '%s' contains no Exif timestamp\n", FileName);
         }
     }
@@ -1190,7 +1190,7 @@ skip_unixtime:
     // Feature to rename image according to date and time from camera.
     // I use this feature to put images from multiple digicams in sequence.
 
-    if (RenameToDate) {
+    if (RenameToDate){
         DoFileRenaming(FileName);
     }
     DiscardData();
@@ -1372,7 +1372,7 @@ time_t ParseCmdDate(char * DateSpecified)
             &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
             &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
 
-    if (a != 3 && a < 5) {
+    if (a != 3 && a < 5){
         // Date must be YYYY:MM:DD, YYYY:MM:DD+HH:MM
         // or YYYY:MM:DD+HH:MM:SS
         ErrFatal("Could not parse specified date");
@@ -1382,7 +1382,7 @@ time_t ParseCmdDate(char * DateSpecified)
     tm.tm_year -= 1900;  // Adjust for year starting at 1900 
 
     UnixTime = mktime(&tm);
-    if (UnixTime == -1) {
+    if (UnixTime == -1){
         ErrFatal("Specified time is invalid or out of range");
     }
     
@@ -1399,107 +1399,107 @@ int main (int argc, char **argv)
     char * arg;
     progname = argv[0];
 
-    for (argn=1;argn<argc;argn++) {
+    for (argn=1;argn<argc;argn++){
         arg = argv[argn];
         if (arg[0] != '-') break; // Filenames from here on.
 
     // General metadata options:
-        if (!strcmp(arg,"-te")) {
+        if (!strcmp(arg,"-te")){
             ExifXferScrFile = argv[++argn];
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-dc")) {
+        }else if (!strcmp(arg,"-dc")){
             DeleteComments = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-de")) {
+        }else if (!strcmp(arg,"-de")){
             DeleteExif = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-di")) {
+        }else if (!strcmp(arg,"-di")){
             DeleteIptc = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-dx")) {
+        }else if (!strcmp(arg,"-dx")){
             DeleteXmp = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg, "-du")) {
+        }else if (!strcmp(arg, "-du")){
             DeleteUnknown = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg, "-purejpg")) {
+        }else if (!strcmp(arg, "-purejpg")){
             DeleteExif = TRUE;
             DeleteComments = TRUE;
             DeleteIptc = TRUE;
             DeleteUnknown = TRUE;
             DeleteXmp = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-ce")) {
+        }else if (!strcmp(arg,"-ce")){
             EditComment = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-cs")) {
+        }else if (!strcmp(arg,"-cs")){
             CommentSavefileName = argv[++argn];
-        } else if (!strcmp(arg,"-ci")) {
+        }else if (!strcmp(arg,"-ci")){
             CommentInsertfileName = argv[++argn];
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-cl")) {
+        }else if (!strcmp(arg,"-cl")){
             CommentInsertLiteral = argv[++argn];
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-mkexif")) {
+        }else if (!strcmp(arg,"-mkexif")){
             CreateExifSection = TRUE;
             DoModify = TRUE;
 
     // Output verbosity control
-        } else if (!strcmp(arg,"-h")) {
+        }else if (!strcmp(arg,"-h")){
             Usage();
-        } else if (!strcmp(arg,"-v")) {
+        }else if (!strcmp(arg,"-v")){
             ShowTags = TRUE;
-        } else if (!strcmp(arg,"-q")) {
+        }else if (!strcmp(arg,"-q")){
             Quiet = TRUE;
-        } else if (!strcmp(arg,"-V")) {
+        }else if (!strcmp(arg,"-V")){
             printf("Jhead version: "JHEAD_VERSION"   Compiled: "__DATE__"\n");
             exit(0);
-        } else if (!strcmp(arg,"-exifmap")) {
+        }else if (!strcmp(arg,"-exifmap")){
             DumpExifMap = TRUE;
-        } else if (!strcmp(arg,"-se")) {
+        }else if (!strcmp(arg,"-se")){
             SupressNonFatalErrors = TRUE;
-        } else if (!strcmp(arg,"-c")) {
+        }else if (!strcmp(arg,"-c")){
             ShowConcise = TRUE;
-        } else if (!strcmp(arg,"-nofinfo")) {
+        }else if (!strcmp(arg,"-nofinfo")){
             ShowFileInfo = 0;
 
     // Thumbnail manipulation options
-        } else if (!strcmp(arg,"-dt")) {
+        }else if (!strcmp(arg,"-dt")){
             TrimExif = TRUE;
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-st")) {
+        }else if (!strcmp(arg,"-st")){
             ThumbSaveName = argv[++argn];
             DoReadAction = TRUE;
-        } else if (!strcmp(arg,"-rt")) {
+        }else if (!strcmp(arg,"-rt")){
             ThumbInsertName = argv[++argn];
             DoModify = TRUE;
-        } else if (!memcmp(arg,"-rgt", 4)) {
+        }else if (!memcmp(arg,"-rgt", 4)){
             RegenThumbnail = 160;
             sscanf(arg+4, "%d", &RegenThumbnail);
-            if (RegenThumbnail > 320) {
+            if (RegenThumbnail > 320){
                 ErrFatal("Specified thumbnail geometry too big!");
             }
             DoModify = TRUE;
 
     // Rotation tag manipulation
-        } else if (!strcmp(arg,"-autorot")) {
+        }else if (!strcmp(arg,"-autorot")){
             AutoRotate = 1;
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-norot")) {
+        }else if (!strcmp(arg,"-norot")){
             AutoRotate = 1;
             ZeroRotateTagOnly = 1;
             DoModify = TRUE;
 
     // Date/Time manipulation options
-        } else if (!memcmp(arg,"-n",2)) {
+        }else if (!memcmp(arg,"-n",2)){
             RenameToDate = 1;
             DoReadAction = TRUE; // Rename doesn't modify file, so count as read action.
             arg+=2;
-            if (*arg == 'f') {
+            if (*arg == 'f'){
                 RenameToDate = 2;
                 arg++;
             }
-            if (*arg) {
+            if (*arg){
                 // A strftime format string is supplied.
                 strftime_args = arg;
                 #ifdef _WIN32
@@ -1507,74 +1507,74 @@ int main (int argc, char **argv)
                 #endif
                 //printf("strftime_args = %s\n",arg);
             }
-        } else if (!strcmp(arg,"-a")) {
+        }else if (!strcmp(arg,"-a")){
             #ifndef _WIN32
                 ErrFatal("Error: -a only supported in Windows version");
             #else
                 RenameAssociatedFiles = TRUE;
             #endif
-        } else if (!strcmp(arg,"-ft")) {
+        }else if (!strcmp(arg,"-ft")){
             Exif2FileTime = TRUE;
             DoReadAction = TRUE;
-        } else if (!memcmp(arg,"-ta",3)) {
+        }else if (!memcmp(arg,"-ta",3)){
             // Time adjust feature.
             int hours, minutes, seconds, n;
             minutes = seconds = 0;
-            if (arg[3] != '-' && arg[3] != '+') {
+            if (arg[3] != '-' && arg[3] != '+'){
                 ErrFatal("Error: -ta must be followed by +/- and a time");
             }
             n = sscanf(arg+4, "%d:%d:%d", &hours, &minutes, &seconds);
 
-            if (n < 1) {
+            if (n < 1){
                 ErrFatal("Error: -ta must be immediately followed by time");
             }
             if (ExifTimeAdjust) ErrFatal("Can only use one of -da or -ta options at once");
             ExifTimeAdjust = hours*3600 + minutes*60 + seconds;
             if (arg[3] == '-') ExifTimeAdjust = -ExifTimeAdjust;
             DoModify = TRUE;
-        } else if (!memcmp(arg,"-da",3)) {
+        }else if (!memcmp(arg,"-da",3)){
             // Date adjust feature (large time adjustments)
             time_t NewDate, OldDate = 0;
             char * pOldDate;
             NewDate = ParseCmdDate(arg+3);
             pOldDate = strstr(arg+1, "-");
-            if (pOldDate) {
+            if (pOldDate){
                 OldDate = ParseCmdDate(pOldDate+1);
-            } else {
+            }else{
                 ErrFatal("Must specifiy second date for -da option");
             }
             if (ExifTimeAdjust) ErrFatal("Can only use one of -da or -ta options at once");
             ExifTimeAdjust = NewDate-OldDate;
             DoModify = TRUE;
-        } else if (!memcmp(arg,"-dsft",5)) {
+        }else if (!memcmp(arg,"-dsft",5)){
             // Set file time to date/time in exif
             FileTimeToExif = TRUE;
             DoModify = TRUE;
-        } else if (!memcmp(arg,"-ds",3)) {
+        }else if (!memcmp(arg,"-ds",3)){
             // Set date feature
             int a;
             // Check date validity and copy it.  Could be incompletely specified.
             strcpy(DateSet, "0000:01:01");
-            for (a=0;arg[a+3];a++) {
-                if (isdigit(DateSet[a])) {
-                    if (!isdigit(arg[a+3])) {
+            for (a=0;arg[a+3];a++){
+                if (isdigit(DateSet[a])){
+                    if (!isdigit(arg[a+3])){
                         a = 0;
                         break;
                     }
-                } else {
-                    if (arg[a+3] != ':') {
+                }else{
+                    if (arg[a+3] != ':'){
                         a=0;
                         break;
                     }
                 }
                 DateSet[a] = arg[a+3];
             }
-            if (a < 4 || a > 10) {
+            if (a < 4 || a > 10){
                 ErrFatal("Date must be in format YYYY, YYYY:MM, or YYYY:MM:DD");
             }
             DateSetChars = a;
             DoModify = TRUE;
-        } else if (!memcmp(arg,"-ts",3)) {
+        }else if (!memcmp(arg,"-ts",3)){
             // Set the exif time.
             // Time must be specified as "yyyy:mm:dd-hh:mm:ss"
             char * c;
@@ -1583,7 +1583,7 @@ int main (int argc, char **argv)
             c = strstr(arg+1, "-");
             if (c) *c = ' '; // Replace '-' with a space.
             
-            if (!Exif2tm(&tm, arg+3)) {
+            if (!Exif2tm(&tm, arg+3)){
                 ErrFatal("-ts option must be followed by time in format yyyy:mmm:dd-hh:mm:ss\n"
                         "Example: jhead -ts2001:01:01-12:00:00 foo.jpg");
             }
@@ -1594,81 +1594,81 @@ int main (int argc, char **argv)
             DoModify = TRUE;
 
     // File matching and selection
-        } else if (!strcmp(arg,"-model")) {
+        }else if (!strcmp(arg,"-model")){
             if (argn+1 >= argc) Usage(); // No extra argument.
             FilterModel = argv[++argn];
-        } else if (!strcmp(arg,"-exonly")) {
+        }else if (!strcmp(arg,"-exonly")){
             ExifOnly = 1;
-        } else if (!strcmp(arg,"-orp")) {
+        }else if (!strcmp(arg,"-orp")){
             PortraitOnly = 1;
-        } else if (!strcmp(arg,"-orl")) {
+        }else if (!strcmp(arg,"-orl")){
             PortraitOnly = -1;
-        } else if (!strcmp(arg,"-cmd")) {
+        }else if (!strcmp(arg,"-cmd")){
             if (argn+1 >= argc) Usage(); // No extra argument.
             ApplyCommand = argv[++argn];
             DoModify = TRUE;
 
 #ifdef MATTHIAS
-        } else if (!strcmp(arg,"-ca")) {
+        }else if (!strcmp(arg,"-ca")){
             // Its a literal comment.  Add.
             AddComment = argv[++argn];
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-cr")) {
+        }else if (!strcmp(arg,"-cr")){
             // Its a literal comment.  Remove this keyword.
             RemComment = argv[++argn];
             DoModify = TRUE;
-        } else if (!strcmp(arg,"-ar")) {
+        }else if (!strcmp(arg,"-ar")){
             AutoResize = TRUE;
             ShowConcise = TRUE;
             ApplyCommand = (char *)1; // Must be non null so it does commands.
             DoModify = TRUE;
 #endif // MATTHIAS
-        } else {
+        }else{
             printf("Argument '%s' not understood\n",arg);
             printf("Use jhead -h for list of arguments\n");
             exit(-1);
         }
-        if (argn >= argc) {
+        if (argn >= argc){
             // Used an extra argument - becuase the last argument 
             // used up an extr argument.
             ErrFatal("Extra argument required");
         }
     }
-    if (argn == argc) {
+    if (argn == argc){
         ErrFatal("No files to process.  Use -h for help");
     }
 
-    if (ThumbSaveName != NULL && strcmp(ThumbSaveName, "&i") == 0) {
+    if (ThumbSaveName != NULL && strcmp(ThumbSaveName, "&i") == 0){
         printf("Error: By specifying \"&i\" for the thumbail name, your original file\n"
                "       will be overwitten.  If this is what you really want,\n"
                "       specify  -st \"./&i\"  to override this check\n");
         exit(0);
     }
 
-    if (RegenThumbnail) {
-        if (ThumbSaveName || ThumbInsertName) {
+    if (RegenThumbnail){
+        if (ThumbSaveName || ThumbInsertName){
             printf("Error: Cannot regen and save or insert thumbnail in same run\n");
             exit(0);
         }
     }
 
-    if (EditComment) {
-        if (CommentSavefileName != NULL || CommentInsertfileName != NULL) {
+    if (EditComment){
+        if (CommentSavefileName != NULL || CommentInsertfileName != NULL){
             printf("Error: Cannot use -ce option in combination with -cs or -ci\n");
             exit(0);
         }
     }
 
 
-    if (ExifXferScrFile) {
-        if (FilterModel || ApplyCommand) {
+    if (ExifXferScrFile){
+        if (FilterModel || ApplyCommand){
             ErrFatal("Error: Filter by model and/or applying command to files\n"
             "   invalid while transfering Exif headers");
         }
     }
 
     FileSequence = 0;
-    for (;argn<argc;argn++) {
+    for (;argn<argc;argn++){
         FilesMatched = FALSE;
 
         #ifdef _WIN32
@@ -1682,14 +1682,14 @@ int main (int argc, char **argv)
             ProcessFile(argv[argn]);
         #endif
 
-        if (!FilesMatched) {
+        if (!FilesMatched){
             fprintf(stderr, "Error: No files matched '%s'\n",argv[argn]);
         }
     }
     
-    if (FileSequence == 0) {
+    if (FileSequence == 0){
         return EXIT_FAILURE;
-    } else {
+    }else{
         return EXIT_SUCCESS;
     }
 }

@@ -27,8 +27,8 @@
 #include <sys/types.h>
 #include <hardware/lights.h>
 
-#define BACKLIGHT_ON            0x1
-#define BACKLIGHT_OFF           0x2
+#define BACKLIGHT_ON		0x1
+#define BACKLIGHT_OFF		0x2
 
 static pthread_once_t g_init = PTHREAD_ONCE_INIT;
 static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -166,7 +166,7 @@ static int open_lights(const struct hw_module_t* module, char const* name,
 
     struct light_device_t* dev = malloc(sizeof(struct light_device_t));
 
-    if (!dev)
+    if(!dev)
         return -ENOMEM;
 
     memset(dev, 0, sizeof(*dev));

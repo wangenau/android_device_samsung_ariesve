@@ -68,9 +68,9 @@ void show_IPTC (unsigned char* Data, unsigned int itemlen)
     if (memcmp(pos, IptcSig2, sizeof(IptcSig2)-1) != 0) goto badsig;
     pos += sizeof(IptcSig2)-1;          // move data pointer to the next field
 
-    if (memcmp(pos, IptcSig3, sizeof(IptcSig3)) != 0) {
+    if (memcmp(pos, IptcSig3, sizeof(IptcSig3)) != 0){
 badsig:
-        if (ShowTags) {
+        if (ShowTags){
             ErrNonfatal("IPTC type signature mismatch\n",0,0);
         }
         return;
@@ -106,7 +106,7 @@ badsig:
         signature = (*pos << 8) + (*(pos+1));
         pos += 2;
 
-        if (signature != 0x1C02) {
+        if (signature != 0x1C02){
             break;
         }
 
@@ -147,7 +147,7 @@ badsig:
             case IPTC_IMAGE_TYPE:              description = "Image type"; break;
 
             default:
-                if (ShowTags) {
+                if (ShowTags){
                     printf("Unrecognised IPTC tag: %d\n", type );
                 }
             break;
@@ -184,18 +184,18 @@ void ShowXmp(Section_t XmpSection)
     OutLineChars = 0;
 
 
-    for (a=0;a<XmpSection.Size;a++) {
-        if (Data[a] >= 32 && Data[a] < 128) {
+    for (a=0;a<XmpSection.Size;a++){
+        if (Data[a] >= 32 && Data[a] < 128){
             OutLine[OutLineChars++] = Data[a];
             if (Data[a] != ' ') NonBlank |= 1;
-        } else {
-            if (Data[a] != '\n') {
+        }else{
+            if (Data[a] != '\n'){
                 OutLine[OutLineChars++] = '?';
             }
         }
-        if (Data[a] == '\n' || OutLineChars >= 100) {
+        if (Data[a] == '\n' || OutLineChars >= 100){
             OutLine[OutLineChars] = 0;
-            if (NonBlank) {
+            if (NonBlank){
                 puts(OutLine);
             }
             NonBlank = (NonBlank & 1) << 1;

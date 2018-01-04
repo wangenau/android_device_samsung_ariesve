@@ -421,7 +421,7 @@ public class SamsungRIL extends RIL implements CommandsInterface {
                     + nitz.split("[/:,+-]").length);
 
             // remove the tailing information that samsung added to the string
-            if (nitz.split("[/:,+-]").length >= 9)
+            if(nitz.split("[/:,+-]").length >= 9)
                 nitz = nitz.substring(0,(nitz.lastIndexOf(",")));
 
             if (RILJ_LOGD) riljLog(" RIL_UNSOL_NITZ_TIME_RECEIVED striped nitz = "
@@ -610,14 +610,14 @@ public class SamsungRIL extends RIL implements CommandsInterface {
         }
 
         if (mIsSamsungCdma) {
-            if (response[3] < 0){
+            if(response[3] < 0){
                response[3] = -response[3];
             }
             // Framework takes care of the rest for us.
         } else {
             /* Matching Samsung signal strength to asu.
                Method taken from Samsungs cdma/gsmSignalStateTracker */
-            if (mSignalbarCount) {
+            if(mSignalbarCount) {
                 // Samsung sends the count of bars that should be displayed instead of
                 // a real signal strength
                 response[0] = ((response[0] & 0xFF00) >> 8) * 3; // gsmDbm
@@ -629,7 +629,7 @@ public class SamsungRIL extends RIL implements CommandsInterface {
             response[3] = (response[3] < 0)?-160:-response[3]; // cdmaEcio
             response[4] = (response[4] < 0)?-120:-response[4]; // evdoRssi
             response[5] = (response[5] < 0)?-1:-response[5]; // evdoEcio
-            if (response[6] < 0 || response[6] > 8)
+            if(response[6] < 0 || response[6] > 8)
                 response[6] = -1;
         }
 
