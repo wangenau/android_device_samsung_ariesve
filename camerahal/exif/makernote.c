@@ -139,7 +139,7 @@ void ProcessCanonMakerNoteDir(unsigned char * DirStart, unsigned char * OffsetBa
                 // Inidcates the distance the autofocus camera is focused to.
                 // Tends to be less accurate as distance increases.
                 int temp_dist = Get16u(ValuePtr + 19*sizeof(unsigned short));
-printf("temp dist=%d\n",temp_dist);		
+printf("temp dist=%d\n",temp_dist);
                 if (temp_dist != 65535){
                     CameraHALImageInfo.Distance = (float)temp_dist/100;
                 }else{

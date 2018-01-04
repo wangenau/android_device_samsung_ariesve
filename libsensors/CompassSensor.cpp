@@ -44,7 +44,7 @@ CompassSensor::CompassSensor()
     memset(mPendingEvent.data, 0, sizeof(mPendingEvent.data));
 
     ALOGD("CompassSensor::CompassSensor() open data_fd");
-	
+
     if (data_fd) {
         strcpy(input_sysfs_path, "/sys/class/input/");
         strcat(input_sysfs_path, input_name);

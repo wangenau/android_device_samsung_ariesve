@@ -489,7 +489,7 @@ int WriteJpegFile(const char * FileName)
     for (a=0;a<SectionsRead-1;a++){
         fputc(0xff,outfile);
         fputc((unsigned char)Sections[a].Type, outfile);
-	nWrite = fwrite(Sections[a].Data, 1, Sections[a].Size, outfile);
+        nWrite = fwrite(Sections[a].Data, 1, Sections[a].Size, outfile);
         writeOk = (nWrite == Sections[a].Size);
         if(!writeOk){
             ALOGE("write section %d failed expect %d actual %d",a,Sections[a].Size,nWrite);
@@ -500,7 +500,7 @@ int WriteJpegFile(const char * FileName)
     // Write the remaining image data.
     if (writeOk){
         nWrite = fwrite(Sections[a].Data, 1,Sections[a].Size, outfile);
-	writeOk = (nWrite == Sections[a].Size);
+        writeOk = (nWrite == Sections[a].Size);
         if (!writeOk){
             ALOGE("write section %d failed expect %d actual %d",a,Sections[a].Size,nWrite);
         }
