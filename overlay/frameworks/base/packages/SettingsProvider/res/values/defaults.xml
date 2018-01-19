@@ -10,4 +10,7 @@
 
     <!-- Default value of Settings.System.ENABLE_REVERSE_LOOKUP -->
     <integer name="def_reverse_lookup">0</integer>
+
+    <!-- Default value of Settings.System.NOISE_SUPPRESSION -->
+    <bool name="def_noise_suppression">true</bool>
 </resources>
