@@ -67,6 +67,10 @@ logcat.live=disable
 # Disable sending of usage data
 ro.config.nocheckin=1
 
+# Disable error checking
+ro.kernel.android.checkjin=0
+ro.kernel.checkjin=0
+
 # Disable atlas services on low-ram targets
 config.disable_atlas=true
 
