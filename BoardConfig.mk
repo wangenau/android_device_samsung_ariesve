@@ -220,3 +220,6 @@ BOARD_SEPOLICY_UNION += \
 
 # Hardware tunables
 BOARD_HARDWARE_CLASS := device/samsung/ariesve/cmhw/
+
+# Font
+SMALLER_FONT_FOOTPRINT := true

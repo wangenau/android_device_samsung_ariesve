@@ -17,11 +17,6 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 PRODUCT_BOOT_JARS += qcmediaplayer
 
-# Boot animation
-TARGET_BOOTANIMATION_HALF_RES := true
-TARGET_SCREEN_HEIGHT := 800
-TARGET_SCREEN_WIDTH := 480
-
 # Charging image
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/lpm/charging.rle:root/charging.rle

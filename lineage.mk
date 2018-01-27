@@ -8,6 +8,11 @@ $(call inherit-product, $(LOCAL_PATH)/full_ariesve.mk)
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
+# Boot animation
+TARGET_SCREEN_HEIGHT := 800
+TARGET_SCREEN_WIDTH := 480
+TARGET_BOOTANIMATION_HALF_RES := true
+
 PRODUCT_RELEASE_NAME := ariesve
 
 # Setup device configuration
