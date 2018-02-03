@@ -57,19 +57,8 @@ persist.sys.force_highendgfx=true
 # Enable smooth streaming
 mm.enable.smoothstreaming=true
 
-# Disable profiler
-profiler.force_disable_err_rpt=1
-profiler.force_disable_ulog=1
-
 # Disable live logcat
 logcat.live=disable
-
-# Disable sending of usage data
-ro.config.nocheckin=1
-
-# Disable error checking
-ro.kernel.android.checkjin=0
-ro.kernel.checkjin=0
 
 # Disable atlas services on low-ram targets
 config.disable_atlas=true
