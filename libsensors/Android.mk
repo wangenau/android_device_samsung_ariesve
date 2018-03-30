@@ -31,7 +31,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
 
 LOCAL_SRC_FILES := 				\
-			sensors.cpp		\
+			sensors.cpp			\
 			SensorBase.cpp		\
 			LightSensor.cpp		\
 			ProximitySensor.cpp	\

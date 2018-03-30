@@ -2,10 +2,10 @@
 /dev/rtc1                 0660   system     system
 /dev/ttyHS0               0660   bluetooth  net_bt_stack
 
-# the DIAG device node is world writable/readable.
+# the DIAG device node is world writable/readable
 /dev/diag                 0666   root       root
 
-# the genlock client device node is world writable/readable.
+# the genlock client device node is world writable/readable
 /dev/genlock              0666   system     system
 
 # gpu driver for adreno200 is globally accessible

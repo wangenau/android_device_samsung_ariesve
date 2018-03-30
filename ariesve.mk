@@ -1,4 +1,5 @@
 # Copyright (C) 2012 The CyanogenMod Project
+#           (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +14,11 @@
 # limitations under the License.
 
 # Overlay path
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay
 
-PRODUCT_BOOT_JARS += qcmediaplayer
+PRODUCT_BOOT_JARS += \
+    qcmediaplayer
 
 # Charging image
 PRODUCT_COPY_FILES += \
@@ -53,7 +56,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/fstab.qcom:recovery/root/fstab.qcom \
     $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
 
-# BT stuff
+# Bluetooth stuff
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/get_macaddrs:system/bin/get_macaddrs
 
@@ -139,9 +142,8 @@ PRODUCT_PACKAGES += \
     fsck.f2fs \
     mkfs.f2fs
 
-# Usb accessory and Wifi
+# Wi-Fi
 PRODUCT_PACKAGES += \
-    com.android.future.usb.accessory \
     libnetcmdiface
 
 # Device-specific packages
@@ -150,7 +152,8 @@ PRODUCT_PACKAGES += \
     AriesParts
 
 # Other apps
-PRODUCT_PACKAGES += qcmediaplayer
+PRODUCT_PACKAGES += \
+    qcmediaplayer
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -178,7 +181,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Resampler quality
 PRODUCT_PROPERTY_OVERRIDES += \
-af.resampler.quality=4
+    af.resampler.quality=4
 
 # Disable strict mode
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -191,24 +194,21 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.low_ram=true
 
 # We have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
+PRODUCT_TAGS += \
+    dalvik.gc.type-precise
 
 # JNI checks
-# The extended JNI checks will cause the system to run more slowly,
-# but they can spot a variety of nasty bugs
-# before they have a chance to cause problems.
-# Default=true for development builds, set by android buildsystem.
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.checkjni=false \
     ro.kernel.android.checkjni=0
 
-# WiFi
+# Wi-Fi
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)
 
 # Dalvik heap
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
-# Wifi Calibration 
+# Wi-Fi Calibration 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/nvram_net.txt:system/vendor/firmware/nvram_net.txt
 

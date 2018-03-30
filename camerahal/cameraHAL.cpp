@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
- * Copyright (C) 2012 Zhibin Wu, Simon Davie, Nico Kaiser
- * Copyright (C) 2012 QiSS ME Project Team
- * Copyright (C) 2012 Twisted, Sean Neeley
- * Copyright (C) 2012 Tomasz Rostanski
+ *           (C) 2012 Zhibin Wu, Simon Davie, Nico Kaiser
+ *           (C) 2012 QiSS ME Project Team
+ *           (C) 2012 Twisted, Sean Neeley
+ *           (C) 2012 Tomasz Rostanski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

@@ -1,7 +1,8 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
- * Copyright (C) 2011 <kang@insecure.ws>
- * Copyright (C) 2015 The CyanogenMod Project
+ *           (C) 2011 <kang@insecure.ws>
+ *           (C) 2015 The CyanogenMod Project
+ *           (C) 2017 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -139,7 +140,6 @@ set_light_buttons(struct light_device_t* dev,
 static int
 close_lights(struct light_device_t* dev)
 {
-    ALOGV("close_light is called");
     if (dev) {
         free(dev);
     }
