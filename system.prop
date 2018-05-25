@@ -58,9 +58,6 @@ persist.sys.force_highendgfx=true
 # Enable smooth streaming
 mm.enable.smoothstreaming=true
 
-# Disable live logcat
-logcat.live=disable
-
 # Disable atlas services on low-ram targets
 config.disable_atlas=true
 
