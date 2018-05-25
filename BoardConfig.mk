@@ -220,6 +220,3 @@ BOARD_HARDWARE_CLASS := device/samsung/ariesve/cmhw
 
 # Font
 SMALLER_FONT_FOOTPRINT := true
-
-# CVE skips
-BOARD_SKIP_CVE_2017_13154 := true 
