@@ -12,10 +12,7 @@ LOCAL_MODULE := camera.$(TARGET_BOARD_PLATFORM)
 
 LOCAL_MODULE_TAGS := optional
 
-LOCAL_SRC_FILES := \
-	cameraHAL.cpp
-
-LOCAL_SRC_FILES := \
+LOCAL_SRC_FILES := cameraHAL.cpp \
 	exif/exif.c \
 	exif/gpsinfo.c \
 	exif/iptc.c \
