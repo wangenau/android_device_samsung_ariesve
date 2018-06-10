@@ -20,6 +20,10 @@ DEVICE_PACKAGE_OVERLAYS += \
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
+# Bootsplash image
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/ARIESVE.rle:root/ARIESVE.rle
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
