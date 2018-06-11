@@ -20,9 +20,10 @@ DEVICE_PACKAGE_OVERLAYS += \
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
-# Bootsplash image
+# Bootsplash and charging image
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ARIESVE.rle:root/ARIESVE.rle
+    $(LOCAL_PATH)/prebuilt/ARIESVE.rle:root/ARIESVE.rle \
+    $(LOCAL_PATH)/prebuilt/charging.rle:root/charging.rle
 
 # Permissions
 PRODUCT_COPY_FILES += \
