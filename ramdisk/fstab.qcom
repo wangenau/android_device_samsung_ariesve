@@ -13,5 +13,5 @@
 /dev/block/zram0                                    none         swap     defaults                                                                                          zramsize=67108864
 
 # vold managed volumes
-/devices/platform/msm_sdcc.4/mmc_host               auto         auto     defaults                                                                                          voldmanaged=sdcard1:auto,encryptable=userdata
-/devices/platform/msm_hsusb_host.0                  auto         auto     defaults                                                                                          voldmanaged=usb:auto
+/devices/platform/msm_sdcc.4/mmc_host               auto         auto     defaults                                                                                          voldmanaged=sdcard1:auto,noemulatedsd,encryptable=userdata
+/devices/platform/msm_hsusb_host.0                  auto         auto     defaults                                                                                          voldmanaged=usbdisk:auto
