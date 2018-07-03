@@ -398,11 +398,6 @@ static void CameraHAL_FixupParams(android::CameraParameters &camParams, priv_cam
     camParams.set(CameraParameters::KEY_MAX_CONTRAST, 10);
     camParams.set(CameraParameters::KEY_MAX_SHARPNESS, 30);
 
-    //keys for compatibility with other apps
-    camParams.set("max-saturation", 10);
-    camParams.set("max-contrast", 10);
-    camParams.set("max-sharpness", 30);
-
 }
 
 static int camera_set_preview_window(struct camera_device *device,
