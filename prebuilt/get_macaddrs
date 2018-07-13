@@ -8,7 +8,7 @@ unset wifimac
 unset btmac
 
 # Skip processing if MAC addresses are already written
-if [[ -f /data/.mac.info -a -f /data/.bt.info ]]; then
+if [ -f /data/.mac.info -a -f /data/.bt.info ]; then
   echo "MAC addresses already found." >&2
 fi
 
