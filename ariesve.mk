@@ -61,6 +61,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/get_macaddrs:system/bin/get_macaddrs
 
+# Fix maximum brightness after boot issue
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/fix_brightness:system/bin/fix_brightness
+
 # Touchscreen calibration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/quantom-touchscreen.idc:system/usr/idc/quantom-touchscreen.idc

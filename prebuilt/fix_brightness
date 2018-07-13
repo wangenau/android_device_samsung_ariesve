@@ -1,0 +1,38 @@
+#!/system/bin/sh
+# fix_brightness (LineageOS 11)
+# by wangenau
+#
+# This script will read the brightness value from settings and set it again.
+# This "fixes" the maximum brightness issue after booting.
+
+unset light
+
+while :; do
+  light="$(settings get system screen_brightness)"
+
+  # The lowest brightness we can set via this command is 30  
+  if [[ "${light}" -lt '30' ]]; then
+    light='30'
+  fi
+
+  # The screen needs a higher brightness than the one that is set to update
+  # 255 is the maximum brightness and we shouldn't get higher
+  if [[ "${light}" -lt '255' ]]; then
+    settings put system screen_brightness $((${light}+1))
+  else
+    settings put system screen_brightness 255
+  fi
+
+  settings put system screen_brightness "${light}"
+
+  # Break the loop if brightness is an integer
+  # This is the case when the script did its job
+  if [[ "${light}" -eq "${light}" ]]; then
+    echo "Brightness value of ${light} restored." >&2
+    break
+  fi
+
+  sleep 1
+done
+
+exit
