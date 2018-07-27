@@ -184,7 +184,8 @@ PRODUCT_TAGS += \
 # JNI checks
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.checkjni=false \
-    ro.kernel.android.checkjni=0
+    ro.kernel.android.checkjni=0 \
+    ro.kernel.checkjni=0
 
 # Wi-Fi
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)
