@@ -17,13 +17,9 @@
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay
 
+# Boot JARs
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
-
-# Bootsplash and charging image
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/ARIESVE.rle:root/ARIESVE.rle \
-    $(LOCAL_PATH)/prebuilt/charging.rle:root/charging.rle
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -37,6 +33,15 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml
+
+# GPS config
+PRODUCT_COPY_FILES += \
+    hardware/qcom/gps/etc/gps.conf:system/etc/gps.conf
+
+# Bootsplash and charging image
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/ARIESVE.rle:root/ARIESVE.rle \
+    $(LOCAL_PATH)/prebuilt/charging.rle:root/charging.rle
 
 # Media configuration
 PRODUCT_COPY_FILES += \
@@ -77,9 +82,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keyfiles/sec_jack.kl:system/usr/keylayout/sec_jack.kl \
     $(LOCAL_PATH)/keyfiles/melfas_touchkey.kl:system/usr/keylayout/melfas_touchkey.kl
 
-# GPS config
+# Wi-Fi Calibration 
 PRODUCT_COPY_FILES += \
-    hardware/qcom/gps/etc/gps.conf:system/etc/gps.conf
+    $(LOCAL_PATH)/config/nvram_net.txt:system/vendor/firmware/nvram_net.txt
 
 # Build packages
 PRODUCT_PACKAGES += \
@@ -144,14 +149,6 @@ PRODUCT_PACKAGES += \
     charger \
     charger_res_images
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.product.locale.language=en \
-    ro.product.locale.region=GB
-
-# IO Scheduler
-PRODUCT_PROPERTY_OVERRIDES += \
-    sys.io.scheduler=bfq
-
 # Build properties
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.secure=0 \
@@ -159,43 +156,15 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.debuggable=1 \
     persist.service.adb.enable=1
 
-# Audio
-PRODUCT_PROPERTY_OVERRIDES += \
-    audio.offload.disable=1
-
-# Resampler quality
-PRODUCT_PROPERTY_OVERRIDES += \
-    af.resampler.quality=4
-
-# Disable strict mode
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.strictmode.visual=0 \
-    persist.sys.strictmode.disable=1
-
-# For applications to determine if they should turn off specific memory-intensive
-# features that work poorly on low-memory devices.
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.low_ram=true
-
 # We have enough storage space to hold precise GC data
 PRODUCT_TAGS += \
     dalvik.gc.type-precise
-
-# JNI checks
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.checkjni=false \
-    ro.kernel.android.checkjni=0 \
-    ro.kernel.checkjni=0
 
 # Wi-Fi
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)
 
 # Dalvik heap
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
-
-# Wi-Fi Calibration 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/nvram_net.txt:system/vendor/firmware/nvram_net.txt
 
 # Vendor stuff
 $(call inherit-product-if-exists, vendor/samsung/ariesve/device-vendor.mk)

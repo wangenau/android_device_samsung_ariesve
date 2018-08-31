@@ -19,7 +19,6 @@
 # disable makefiles (the proper mechanism to control what gets
 # included in a build is to use PRODUCT_PACKAGES in a product
 # definition file).
-#
 
 # WARNING: This line must come *before* including the proprietary
 # variant, so that it gets overwritten by the parent (which goes
@@ -190,8 +189,7 @@ TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # SELinux
-BOARD_SEPOLICY_DIRS += \
-    device/samsung/ariesve/sepolicy
+BOARD_SEPOLICY_DIRS += device/samsung/ariesve/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file_contexts \

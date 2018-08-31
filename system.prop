@@ -1,7 +1,3 @@
-#
-# system.prop for ariesve
-#
-
 rild.libpath=/system/lib/libsec-ril.so
 rild.libargs=-d /dev/smd0
 
@@ -64,5 +60,27 @@ mm.enable.smoothstreaming=true
 # Disable atlas services on low-ram targets
 config.disable_atlas=true
 
-# USB-OTG
+# Enable USB-OTG
 persist.sys.isUsbOtgEnabled=true
+
+# Set IO Scheduler
+sys.io.scheduler=bfq
+
+# Disable audio offload
+audio.offload.disable=1
+
+# Set resampler quality
+af.resampler.quality=4
+
+# Disable strict mode
+persist.sys.strictmode.visual=0
+persist.sys.strictmode.disable=1
+
+# For applications to determine if they should turn off specific memory-intensive
+# features that work poorly on low-memory devices.
+Pro.config.low_ram=true
+
+# Disable JNI checks
+dalvik.vm.checkjni=false
+ro.kernel.android.checkjni=0
+ro.kernel.checkjni=0

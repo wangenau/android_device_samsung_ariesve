@@ -18,7 +18,7 @@ LOCAL_SRC_FILES := \
 	exif/jhead.c \
 	exif/jpgfile.c \
 	exif/makernote.c
-                
+
 LOCAL_C_INCLUDES := frameworks/av/include
 LOCAL_C_INCLUDES += frameworks/native/include \
                     system/media/camera/include \

@@ -18,5 +18,4 @@
 # configurations which are actually buildable (e.g. through lunch)
 #
 
-PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_ariesve.mk
+PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_ariesve.mk
