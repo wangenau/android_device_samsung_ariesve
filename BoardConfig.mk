@@ -217,6 +217,9 @@ BOARD_SEPOLICY_UNION += \
 # Hardware tunables
 BOARD_HARDWARE_CLASS := device/samsung/ariesve/cmhw
 
+# Skip generation of recovery-from-boot.p
+TARGET_NO_SEPARATE_RECOVERY := true
+
 # Font
 SMALLER_FONT_FOOTPRINT := true
 
