@@ -220,8 +220,5 @@ BOARD_HARDWARE_CLASS := device/samsung/ariesve/cmhw
 # Skip generation of recovery-from-boot.p
 TARGET_NO_SEPARATE_RECOVERY := true
 
-# Font
-SMALLER_FONT_FOOTPRINT := true
-
 # CVE Skips
 BOARD_SKIP_CVE_2017_13154 := true
