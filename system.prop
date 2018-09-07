@@ -84,3 +84,7 @@ Pro.config.low_ram=true
 dalvik.vm.checkjni=false
 ro.kernel.android.checkjni=0
 ro.kernel.checkjni=0
+
+# Set default locale to english
+ro.product.locale.language=en
+ro.product.locale.region=GB
