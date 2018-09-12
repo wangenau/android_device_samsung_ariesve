@@ -36,7 +36,7 @@ PRODUCT_COPY_FILES += \
 
 # GPS config
 PRODUCT_COPY_FILES += \
-    hardware/qcom/gps/etc/gps.conf:system/etc/gps.conf
+    $(LOCAL_PATH)/gps/etc/gps.conf:system/etc/gps.conf
 
 # Bootsplash and charging image
 PRODUCT_COPY_FILES += \

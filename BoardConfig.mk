@@ -87,7 +87,7 @@ BOARD_USES_LEGACY_RIL := true
 BOARD_RIL_CLASS := ../../../device/samsung/ariesve/ril/
 
 # GPS
-BOARD_USES_QCOM_GPS := true
+TARGET_GPS_HAL_PATH := device/samsung/ariesve/gps
 
 # Graphics
 COMMON_GLOBAL_CFLAGS += -DNEW_ION_API
