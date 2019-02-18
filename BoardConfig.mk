@@ -165,7 +165,7 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 
 # Recovery
 BOARD_USE_CUSTOM_RECOVERY_FONT:= \"roboto_10x18.h\"
-DEVICE_RESOLUTION := 480x800
+TW_THEME := portrait_mdpi
 TW_TARGET_USES_QCOM_BSP := true
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_BRIGHTNESS_PATH := /sys/devices/platform/msm_fb.196609/leds/lcd-backlight/brightness
