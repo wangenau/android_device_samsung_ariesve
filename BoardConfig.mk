@@ -182,6 +182,7 @@ TARGET_RECOVERY_DEVICE_DIRS += device/samsung/ariesve
 TARGET_RECOVERY_FSTAB := device/samsung/ariesve/ramdisk/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 RECOVERY_SDCARD_ON_DATA := true
+RECOVERY_VARIANT := twrp
 
 # Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
