@@ -164,6 +164,9 @@ BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
 # Recovery
+TARGET_RECOVERY_DENSITY := mdpi
+TARGET_RECOVERY_DEVICE_DIRS += device/samsung/ariesve
+TARGET_RECOVERY_FSTAB := device/samsung/ariesve/ramdisk/fstab.qcom
 RECOVERY_VARIANT := twrp
 TW_THEME := portrait_mdpi
 TW_TARGET_USES_QCOM_BSP := true
