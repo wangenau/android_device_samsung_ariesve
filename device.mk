@@ -45,24 +45,27 @@ PRODUCT_COPY_FILES += \
 
 # Media configuration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/media_codecs.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs.xml \
-    $(LOCAL_PATH)/config/media_profiles.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_profiles.xml \
-    $(LOCAL_PATH)/config/audio_policy.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/audio_policy.conf
+    $(LOCAL_PATH)/configs/media_codecs.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs.xml \
+    $(LOCAL_PATH)/configs/media_profiles.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_profiles.xml
+
+# Audio configuration
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/audio_policy.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/audio_policy.conf
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.qcom.rc:$(TARGET_COPY_OUT_ROOT)/init.qcom.rc \
-    $(LOCAL_PATH)/ramdisk/init.qcom.usb.rc:$(TARGET_COPY_OUT_ROOT)/init.qcom.usb.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.qcom.rc:$(TARGET_COPY_OUT_ROOT)/ueventd.qcom.rc \
-    $(LOCAL_PATH)/ramdisk/fstab.qcom:$(TARGET_COPY_OUT_ROOT)/fstab.qcom
+    $(LOCAL_PATH)/rootdir/init.qcom.rc:$(TARGET_COPY_OUT_ROOT)/init.qcom.rc \
+    $(LOCAL_PATH)/rootdir/init.qcom.usb.rc:$(TARGET_COPY_OUT_ROOT)/init.qcom.usb.rc \
+    $(LOCAL_PATH)/rootdir/ueventd.qcom.rc:$(TARGET_COPY_OUT_ROOT)/ueventd.qcom.rc \
+    $(LOCAL_PATH)/rootdir/fstab.qcom:$(TARGET_COPY_OUT_ROOT)/fstab.qcom
 
-# Recovery stuff
+# Recovery
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.qcom.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.qcom.usb.rc \
-    $(LOCAL_PATH)/ramdisk/fstab.qcom:$(TARGET_COPY_OUT_RECOVERY)/root/fstab.qcom \
+    $(LOCAL_PATH)/rootdir/init.qcom.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.qcom.usb.rc \
+    $(LOCAL_PATH)/rootdir/fstab.qcom:$(TARGET_COPY_OUT_RECOVERY)/root/fstab.qcom \
     $(LOCAL_PATH)/recovery/twrp.fstab:$(TARGET_COPY_OUT_RECOVERY)/root/etc/twrp.fstab
 
-# Bluetooth stuff
+# MAC adress tool
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/get_macaddrs:$(TARGET_COPY_OUT_SYSTEM)/bin/get_macaddrs
 
@@ -72,19 +75,19 @@ PRODUCT_COPY_FILES += \
 
 # Touchscreen calibration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/quantom-touchscreen.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/quantom-touchscreen.idc
+    $(LOCAL_PATH)/configs/quantom-touchscreen.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/quantom-touchscreen.idc
 
-# Keychars and keylayout
+# Keylayouts
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keyfiles/7k_handset.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/7k_handset.kl \
-    $(LOCAL_PATH)/keyfiles/ariesve_handset.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/ariesve_handset.kl \
-    $(LOCAL_PATH)/keyfiles/ariesve_keypad.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/ariesve_keypad.kl \
-    $(LOCAL_PATH)/keyfiles/sec_jack.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/sec_jack.kl \
-    $(LOCAL_PATH)/keyfiles/melfas_touchkey.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/melfas_touchkey.kl
+    $(LOCAL_PATH)/keylayout/7k_handset.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/7k_handset.kl \
+    $(LOCAL_PATH)/keylayout/ariesve_handset.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/ariesve_handset.kl \
+    $(LOCAL_PATH)/keylayout/ariesve_keypad.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/ariesve_keypad.kl \
+    $(LOCAL_PATH)/keylayout/sec_jack.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/sec_jack.kl \
+    $(LOCAL_PATH)/keylayout/melfas_touchkey.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/melfas_touchkey.kl
 
-# Wi-Fi Calibration 
+# Wifi Calibration 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/nvram_net.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/nvram_net.txt
+    $(LOCAL_PATH)/configs/nvram_net.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/nvram_net.txt
 
 # Build packages
 PRODUCT_PACKAGES += \
@@ -126,7 +129,7 @@ PRODUCT_PACKAGES += \
     fsck.f2fs \
     mkfs.f2fs
 
-# Wi-Fi
+# Wifi
 PRODUCT_PACKAGES += \
     libnetcmdiface
 
@@ -160,11 +163,6 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 PRODUCT_TAGS += \
     dalvik.gc.type-precise
 
-# Wi-Fi
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)
-
-# Dalvik heap
-$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
-
-# Vendor stuff
 $(call inherit-product-if-exists, vendor/samsung/ariesve/device-vendor.mk)
+$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)

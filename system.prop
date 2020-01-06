@@ -78,7 +78,7 @@ persist.sys.strictmode.disable=1
 
 # For applications to determine if they should turn off specific memory-intensive
 # features that work poorly on low-memory devices.
-Pro.config.low_ram=true
+ro.config.low_ram=true
 
 # Disable JNI checks
 dalvik.vm.checkjni=false

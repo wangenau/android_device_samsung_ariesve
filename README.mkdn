@@ -4,13 +4,13 @@
 
 | Feature                 | Specification                     |
 | :---------------------- | :-------------------------------- |
-| CPU                     | Single-core 1.4 GHz               |
+| CPU                     | Single core 1.4 GHz               |
 | Chipset                 | Qualcomm Snapdragon S2 MSM8255T   |
-| GPU                     | Adreno-205                        |
-| Memory                  | 512MB RAM                         |
+| GPU                     | Adreno 205                        |
+| Memory                  | 512 MB RAM                        |
 | Shipped Android Version | 2.3.7                             |
 | Storage                 | 4 GB                              |
-| MicroSD                 | Up to 64GB                        |
+| MicroSD                 | Up to 64 GB                       |
 | Battery                 | 1650 mAh                          |
 | Dimensions              | 122.4 x 64.2 x 9.9 mm             |
 | Display                 | 480 x 800 pixels                  |

@@ -25,7 +25,7 @@
 
 VENDOR_PATH := device/samsung/ariesve
 
-# Vendor stuff
+# Inherit from the proprietary version
 include vendor/samsung/ariesve/BoardConfigVendor.mk
 
 # Platform
@@ -56,7 +56,7 @@ BOARD_KERNEL_PAGESIZE := 2048
 TARGET_KERNEL_SOURCE := kernel/samsung/msm7x30
 TARGET_KERNEL_CONFIG := ariesve_oc_uv_defconfig
 
-# Wi-Fi
+# Wifi
 BOARD_HAVE_SAMSUNG_WIFI := true
 WIFI_BAND := 802_11_ABG
 WPA_SUPPLICANT_VERSION := VER_0_8_X
@@ -167,7 +167,7 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 # Recovery
 TARGET_RECOVERY_DENSITY := mdpi
 TARGET_RECOVERY_DEVICE_DIRS += $(VENDOR_PATH)
-TARGET_RECOVERY_FSTAB := $(VENDOR_PATH)/ramdisk/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(VENDOR_PATH)/rootdir/fstab.qcom
 RECOVERY_VARIANT := twrp
 TW_THEME := portrait_mdpi
 TW_TARGET_USES_QCOM_BSP := true
@@ -223,5 +223,5 @@ BOARD_HARDWARE_CLASS := $(VENDOR_PATH)/cmhw
 # Skip generation of recovery-from-boot.p
 TARGET_NO_SEPARATE_RECOVERY := true
 
-# CVE Skips
+# CVE skips
 BOARD_SKIP_CVE_2017_13154 := true
