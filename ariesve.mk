@@ -23,68 +23,68 @@ PRODUCT_BOOT_JARS += \
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml
+    frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/handheld_core_hardware.xml \
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
+    frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.usb.accessory.xml \
+    frameworks/native/data/etc/android.hardware.usb.host.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.usb.host.xml
 
 # GPS config
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/gps/etc/gps.conf:system/etc/gps.conf
+    $(LOCAL_PATH)/gps/etc/gps.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/gps.conf
 
 # Bootsplash and charging image
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/ARIESVE.rle:root/ARIESVE.rle \
-    $(LOCAL_PATH)/prebuilt/charging.rle:root/charging.rle
+    $(LOCAL_PATH)/prebuilt/ARIESVE.rle:$(TARGET_COPY_OUT_ROOT)/ARIESVE.rle \
+    $(LOCAL_PATH)/prebuilt/charging.rle:$(TARGET_COPY_OUT_ROOT)/charging.rle
 
 # Media configuration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/config/media_profiles.xml:system/etc/media_profiles.xml \
-    $(LOCAL_PATH)/config/audio_policy.conf:system/etc/audio_policy.conf
+    $(LOCAL_PATH)/config/media_codecs.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs.xml \
+    $(LOCAL_PATH)/config/media_profiles.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_profiles.xml \
+    $(LOCAL_PATH)/config/audio_policy.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/audio_policy.conf
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.qcom.rc:root/init.qcom.rc \
-    $(LOCAL_PATH)/ramdisk/init.qcom.usb.rc:root/init.qcom.usb.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.qcom.rc:root/ueventd.qcom.rc \
-    $(LOCAL_PATH)/ramdisk/fstab.qcom:root/fstab.qcom
+    $(LOCAL_PATH)/ramdisk/init.qcom.rc:$(TARGET_COPY_OUT_ROOT)/init.qcom.rc \
+    $(LOCAL_PATH)/ramdisk/init.qcom.usb.rc:$(TARGET_COPY_OUT_ROOT)/init.qcom.usb.rc \
+    $(LOCAL_PATH)/ramdisk/ueventd.qcom.rc:$(TARGET_COPY_OUT_ROOT)/ueventd.qcom.rc \
+    $(LOCAL_PATH)/ramdisk/fstab.qcom:$(TARGET_COPY_OUT_ROOT)/fstab.qcom
 
 # Recovery stuff
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.qcom.usb.rc:recovery/root/init.qcom.usb.rc \
-    $(LOCAL_PATH)/ramdisk/fstab.qcom:recovery/root/fstab.qcom \
-    $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
+    $(LOCAL_PATH)/ramdisk/init.qcom.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.qcom.usb.rc \
+    $(LOCAL_PATH)/ramdisk/fstab.qcom:$(TARGET_COPY_OUT_RECOVERY)/root/fstab.qcom \
+    $(LOCAL_PATH)/recovery/twrp.fstab:$(TARGET_COPY_OUT_RECOVERY)/root/etc/twrp.fstab
 
 # Bluetooth stuff
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/get_macaddrs:system/bin/get_macaddrs
+    $(LOCAL_PATH)/prebuilt/get_macaddrs:$(TARGET_COPY_OUT_SYSTEM)/bin/get_macaddrs
 
 # Fix maximum brightness after boot issue
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/fix_brightness:system/bin/fix_brightness
+    $(LOCAL_PATH)/prebuilt/fix_brightness:$(TARGET_COPY_OUT_SYSTEM)/bin/fix_brightness
 
 # Touchscreen calibration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/quantom-touchscreen.idc:system/usr/idc/quantom-touchscreen.idc
+    $(LOCAL_PATH)/config/quantom-touchscreen.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/quantom-touchscreen.idc
 
 # Keychars and keylayout
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keyfiles/7k_handset.kl:system/usr/keylayout/7k_handset.kl \
-    $(LOCAL_PATH)/keyfiles/ariesve_handset.kl:system/usr/keylayout/ariesve_handset.kl \
-    $(LOCAL_PATH)/keyfiles/ariesve_keypad.kl:system/usr/keylayout/ariesve_keypad.kl \
-    $(LOCAL_PATH)/keyfiles/sec_jack.kl:system/usr/keylayout/sec_jack.kl \
-    $(LOCAL_PATH)/keyfiles/melfas_touchkey.kl:system/usr/keylayout/melfas_touchkey.kl
+    $(LOCAL_PATH)/keyfiles/7k_handset.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/7k_handset.kl \
+    $(LOCAL_PATH)/keyfiles/ariesve_handset.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/ariesve_handset.kl \
+    $(LOCAL_PATH)/keyfiles/ariesve_keypad.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/ariesve_keypad.kl \
+    $(LOCAL_PATH)/keyfiles/sec_jack.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/sec_jack.kl \
+    $(LOCAL_PATH)/keyfiles/melfas_touchkey.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/melfas_touchkey.kl
 
 # Wi-Fi Calibration 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/nvram_net.txt:system/vendor/firmware/nvram_net.txt
+    $(LOCAL_PATH)/config/nvram_net.txt:$(TARGET_COPY_OUT_VENDOR)/firmware/nvram_net.txt
 
 # Build packages
 PRODUCT_PACKAGES += \

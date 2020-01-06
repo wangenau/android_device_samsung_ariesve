@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
 # This file sets variables that control the way modules are built
 # thorughout the system. It should not be used to conditionally
 # disable makefiles (the proper mechanism to control what gets
@@ -23,6 +22,8 @@
 # WARNING: This line must come *before* including the proprietary
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
+
+VENDOR_PATH := device/samsung/ariesve
 
 # Vendor stuff
 include vendor/samsung/ariesve/BoardConfigVendor.mk
@@ -59,11 +60,11 @@ TARGET_KERNEL_CONFIG := ariesve_oc_uv_defconfig
 BOARD_HAVE_SAMSUNG_WIFI := true
 WIFI_BAND := 802_11_ABG
 WPA_SUPPLICANT_VERSION := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
-BOARD_HOSTAPD_DRIVER := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_bcmdhd
 BOARD_WLAN_DEVICE := bcmdhd
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
 WIFI_DRIVER_MODULE_NAME := "dhd"
 WIFI_DRIVER_MODULE_ARG := "firmware_path=/vendor/firmware/fw_bcmdhd.bin nvram_path=/vendor/firmware/nvram_net.txt"
@@ -78,16 +79,16 @@ NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/ariesve/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/samsung/ariesve/bluetooth/vnd_ariesve.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(VENDOR_PATH)/bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := $(VENDOR_PATH)/bluetooth/vnd_ariesve.txt
 
 # RIL
 BOARD_MOBILEDATA_INTERFACE_NAME = "pdp0"
 BOARD_USES_LEGACY_RIL := true
-BOARD_RIL_CLASS := ../../../device/samsung/ariesve/ril/
+BOARD_RIL_CLASS := ../../../$(VENDOR_PATH)/ril/
 
 # GPS
-TARGET_GPS_HAL_PATH := device/samsung/ariesve/gps
+TARGET_GPS_HAL_PATH := $(VENDOR_PATH)/gps
 
 # Graphics
 COMMON_GLOBAL_CFLAGS += -DNEW_ION_API
@@ -165,8 +166,8 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 
 # Recovery
 TARGET_RECOVERY_DENSITY := mdpi
-TARGET_RECOVERY_DEVICE_DIRS += device/samsung/ariesve
-TARGET_RECOVERY_FSTAB := device/samsung/ariesve/ramdisk/fstab.qcom
+TARGET_RECOVERY_DEVICE_DIRS += $(VENDOR_PATH)
+TARGET_RECOVERY_FSTAB := $(VENDOR_PATH)/ramdisk/fstab.qcom
 RECOVERY_VARIANT := twrp
 TW_THEME := portrait_mdpi
 TW_TARGET_USES_QCOM_BSP := true
@@ -191,7 +192,7 @@ TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # SELinux
-BOARD_SEPOLICY_DIRS += device/samsung/ariesve/sepolicy
+BOARD_SEPOLICY_DIRS += $(VENDOR_PATH)/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file_contexts \
@@ -217,7 +218,7 @@ BOARD_SEPOLICY_UNION += \
     wpa_supplicant.te
 
 # Hardware tunables
-BOARD_HARDWARE_CLASS := device/samsung/ariesve/cmhw
+BOARD_HARDWARE_CLASS := $(VENDOR_PATH)/cmhw
 
 # Skip generation of recovery-from-boot.p
 TARGET_NO_SEPARATE_RECOVERY := true
